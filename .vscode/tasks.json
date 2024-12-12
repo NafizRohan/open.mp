@@ -10,11 +10,12 @@
 			},
 			"args": [
 				"${file}",
-				"-i${workspaceFolder}/qawno/include",
-				"-D${fileDirname}",
+				"'-i${workspaceFolder}/qawno/include'",
+				"'-D${fileDirname}'",
+				"'-Z'",
 				"'-;+'",
 				"'-(+'",
-				"'-d3'"
+				"'-d2'"
 			],
 			"group": {
 				"kind": "build",

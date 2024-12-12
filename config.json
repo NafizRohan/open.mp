@@ -94,7 +94,7 @@
     },
     "password": "",
     "pawn": {
-        "legacy_plugins": [],
+        "legacy_plugins": ["mysql.so"],
         "main_scripts": [
             "city 1"
         ],
