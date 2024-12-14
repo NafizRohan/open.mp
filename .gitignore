@@ -2,6 +2,5 @@ logs
 models
 bans.json
 log.txt
-gamemodes/core
-gamemodes/player
-gamemodes/city.pwn
+MORP
+gamemodes/*.pwn

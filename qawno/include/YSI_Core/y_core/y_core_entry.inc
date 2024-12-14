@@ -738,10 +738,10 @@ stock DONT_USE_SCM(a, b, const c[])
 {
 	#pragma unused a, b, c
 }
-#if defined SCM
-	#undef SCM
-#endif
-#define SCM D0NT_USE
+// #if defined SCM
+// 	#undef SCM
+// #endif
+// #define SCM D0NT_USE
 
 #if __COMPILER_WARNING_SUPPRESSION
 	#pragma warning pop

@@ -11,6 +11,7 @@
 			"args": [
 				"${file}",
 				"'-i${workspaceFolder}/qawno/include'",
+				"'-i${workspaceFolder}/MORP'",
 				"'-D${fileDirname}'",
 				"'-Z'",
 				"'-;+'",
