@@ -2,5 +2,3 @@ logs
 models
 bans.json
 log.txt
-MORP
-gamemodes/*.pwn

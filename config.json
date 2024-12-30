@@ -94,7 +94,7 @@
     },
     "password": "",
     "pawn": {
-        "legacy_plugins": ["mysql.so", "bcrypt.so"],
+        "legacy_plugins": ["mapandreas.so", "mysql.so", "bcrypt.so"],
         "main_scripts": [
             "city 1"
         ],
