@@ -24,4 +24,3 @@ forward %0(%1);public %0(%1)
 #define MAX_ORGANIZATIONS 100
 #define MAX_GATES 100
 #define MAX_ADMINS 10
-#define MAX_VEHICLES 1000

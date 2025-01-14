@@ -25,6 +25,7 @@ enum{
 stock bool:ShowDialog(playerid, dialogid, const string[] = ""){
     #pragma unused string
     switch(dialogid){
+        // Login-Register
         case DIALOG_REGISTER:{
             Dialog_Show(playerid, ShowRegisterDialog, DIALOG_STYLE_PASSWORD, 
             COLOR_YELLOW "Set Password", 
@@ -57,33 +58,6 @@ stock bool:ShowDialog(playerid, dialogid, const string[] = ""){
             COLOR_YELLOW "Admin Panel", "Options\nTeleport\nCheck Admins\nSet Admin", 
             "Select", "Cancel");
         }
-        case DIALOG_ADMIN_TELEPORT:{
-            Dialog_Show(playerid, ShowDialogAdminTeleport, DIALOG_STYLE_TABLIST_HEADERS, 
-            COLOR_YELLOW "Admin Panel", "Options\nTeleport to Player\nTeleport to Location\nTeleport to Business\nTeleport to Gate\nTeleport to Organization\nTeleport to Map", 
-            "Select", "Cancel");
-        }
-        case DIALOG_ADMIN_TELEPORT_PLAYER:{
-            Dialog_Show(playerid, ShowDialogAdminTeleportPlayer, DIALOG_STYLE_INPUT, 
-            COLOR_YELLOW "Admin Panel", 
-            "Enter the player ID to teleport to:", 
-            "Select", "Cancel");
-        }
-        case DIALOG_ADMIN_TELEPORT_BUSINESS:{
-            Dialog_Show(playerid, ShowDialogAdminTeleportBusiness, DIALOG_STYLE_INPUT, 
-            COLOR_YELLOW "Admin Panel", "Enter the business ID to teleport to:", 
-            "Select", "Cancel");
-        }
-        case DIALOG_ADMIN_CHECK_ADMINS:{
-            Dialog_Show(playerid, ShowDialogAdminCheckAdmins, DIALOG_STYLE_TABLIST_HEADERS, 
-            COLOR_YELLOW "Admin Panel", "Options\nCheck Admins\nCheck Admins Online", 
-            "Select", "Cancel");
-        }
-        case DIALOG_ADMIN_SET_ADMIN:{
-            Dialog_Show(playerid, ShowDialogAdminSetAdmin, DIALOG_STYLE_TABLIST_HEADERS, 
-            COLOR_YELLOW "Admin Panel", "Options\nSet Admin\nRemove Admin", 
-            "Select", "Cancel");
-        }
-        
         case DIALOG_ADMIN_BUSINESS:{
             Dialog_Show(playerid, ShowDialogAdminBusiness, DIALOG_STYLE_TABLIST_HEADERS, 
             COLOR_YELLOW "Admin Panel", "Options\nCreate Business\nEdit Business\nDelete Business", 
@@ -112,6 +86,34 @@ stock bool:ShowDialog(playerid, dialogid, const string[] = ""){
         case DIALOG_SERVER_VARIABLES:{
             Dialog_Show(playerid, ShowDialogServerVars, DIALOG_STYLE_TABLIST_HEADERS, 
             COLOR_YELLOW "Admin Panel", "Options\nSet Server Money\nSet Server Diamonds\nSet Server Golds", 
+            "Select", "Cancel");
+        }
+        //DIALOG_ADMIN
+        case DIALOG_ADMIN_CHECK_ADMINS:{
+            Dialog_Show(playerid, ShowDialogAdminCheckAdmins, DIALOG_STYLE_TABLIST_HEADERS, 
+            COLOR_YELLOW "Admin Panel", "Options\nCheck Admins\nCheck Admins Online", 
+            "Select", "Cancel");
+        }
+        case DIALOG_ADMIN_SET_ADMIN:{
+            Dialog_Show(playerid, ShowDialogAdminSetAdmin, DIALOG_STYLE_TABLIST_HEADERS, 
+            COLOR_YELLOW "Admin Panel", "Options\nSet Admin\nRemove Admin", 
+            "Select", "Cancel");
+        }
+        // DIALOG_ADMIN_TELEPORT
+        case DIALOG_ADMIN_TELEPORT:{
+            Dialog_Show(playerid, ShowDialogAdminTeleport, DIALOG_STYLE_TABLIST_HEADERS, 
+            COLOR_YELLOW "Admin Panel", "Options\nTeleport to Player\nTeleport to Location\nTeleport to Business\nTeleport to Gate\nTeleport to Organization\nTeleport to Map", 
+            "Select", "Cancel");
+        }
+        case DIALOG_ADMIN_TELEPORT_PLAYER:{
+            Dialog_Show(playerid, ShowDialogAdminTeleportPlayer, DIALOG_STYLE_INPUT, 
+            COLOR_YELLOW "Admin Panel", 
+            "Enter the player ID to teleport to:", 
+            "Select", "Cancel");
+        }
+        case DIALOG_ADMIN_TELEPORT_BUSINESS:{
+            Dialog_Show(playerid, ShowDialogAdminTeleportBusiness, DIALOG_STYLE_INPUT, 
+            COLOR_YELLOW "Admin Panel", "Enter the business ID to teleport to:", 
             "Select", "Cancel");
         }
     }

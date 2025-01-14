@@ -47,14 +47,14 @@ stock TeleportToCoords(playerid, Float:x, Float:y, Float:z, Float:angle = 0.0, i
 	}
 }
 
-stock TeleportPlayer(playerid, targetid){
+stock bool:TeleportPlayer(playerid, targetid){
     new Float:x, Float:y, Float:z, worldid, interiorid;
     GetPlayerPos(targetid, x, y, z);
     interiorid = GetPlayerInterior(targetid);
     worldid = GetPlayerVirtualWorld(targetid);
 
     TeleportToCoords(playerid, x, y, z, 0.0, interiorid, worldid, true, false);
-    return 1;
+    return true;
 }
 
 stock bool:SetPlayerHealthEx(playerid, Float:health){

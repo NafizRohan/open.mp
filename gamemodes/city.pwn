@@ -31,14 +31,19 @@
                       |_|
 */
 
+
+
 // Core
 #include <Core\defines>
+#include <Core\enums>
 #include <Core\serverdata>
+#include <Core\strings>
 #include <functions>
 #include <callbacks>
-
-#include <Core\strings>
 #include <Core\login>
+
+
+
 ////////////////////////////
 
 // Plyer
@@ -47,8 +52,6 @@
 #include <Admin\admin>
 #include <Admin\admindialogs>
 
-// Vehicle
-#include <Vehicle\vehfunc>
 main(){}
 public OnGameModeInit()
 {
