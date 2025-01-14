@@ -9,6 +9,8 @@
                                              __/ |                                             __/ |
                                             |___/                                             |___/ 
 */
+
+#define PASSRESULT      947583875738579935764839986757
 #include <open.mp>
 #undef MAX_PLAYERS
 #define MAX_PLAYERS     100
@@ -47,9 +49,7 @@
 
 // Vehicle
 #include <Vehicle\vehfunc>
-main(){
-    MapAndreas_Init(MAP_ANDREAS_MODE_FULL, "scriptfiles/SAfull.hmap");
-}
+main(){}
 public OnGameModeInit()
 {
     
@@ -58,6 +58,7 @@ public OnGameModeInit()
 	printf("  |  Loaded all Gamemode files  |");
 	printf("  -------------------------------");
 	printf(" ");
+    MapAndreas_Init(MAP_ANDREAS_MODE_FULL, "scriptfiles/SAfull.hmap");
     return 1;
 }
 

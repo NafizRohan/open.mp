@@ -17,14 +17,12 @@ stock bool:SavePlayerData(playerid){
     return true;
 }
 
-
-
 ptask SavePlayerDataTask[300000](playerid){
     if(gPlayerData[playerid][pLogged] && gPlayerData[playerid][pID] != 0){
         SavePlayerData(playerid);
     }
     SSM(playerid, "Your data has been saved.");
-    return 1;
+    return true;
 }
 
 hook OnPlayerConnect(playerid) {
@@ -53,7 +51,7 @@ hook OnPlayerConnect(playerid) {
     gPlayerData[playerid][pPos][3] = 0.0;
 
     SetPlayerColor(playerid, 0xFFFFFF00);    
-    return 1;
+    return true;
 }
 
 hook OnPlayerDisconnect(playerid, reason) {
@@ -61,7 +59,7 @@ hook OnPlayerDisconnect(playerid, reason) {
         SavePlayerData(playerid);
     }
     SetPlayerName(playerid, gMasterData[playerid][msUsername]);
-    return 1;
+    return true;
 }
 
 hook OnGameModeExit() {
@@ -72,5 +70,5 @@ hook OnGameModeExit() {
         }
         SetPlayerName(i, gMasterData[i][msUsername]);
     }
-    return 1;
+    return true;
 }

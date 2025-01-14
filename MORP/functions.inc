@@ -78,7 +78,7 @@ stock bool:SetPlayerArmorEx(playerid, Float:armor){
 }
 
 stock bool:IsBusiness(bizid){
-	//if(gBusinessData[bizid][bID] != 0) return true;
+	if(gBusinessData[bizid][bID] != 0) return true;
 	return false;
 }
 

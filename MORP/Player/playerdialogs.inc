@@ -22,7 +22,7 @@ enum{
 };
 
 
-stock ShowDialog(playerid, dialogid, const string[] = ""){
+stock bool:ShowDialog(playerid, dialogid, const string[] = ""){
     #pragma unused string
     switch(dialogid){
         case DIALOG_REGISTER:{
@@ -114,7 +114,6 @@ stock ShowDialog(playerid, dialogid, const string[] = ""){
             COLOR_YELLOW "Admin Panel", "Options\nSet Server Money\nSet Server Diamonds\nSet Server Golds", 
             "Select", "Cancel");
         }
-        
     }
-    return 1;
+    return true;
 }
