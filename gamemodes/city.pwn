@@ -33,22 +33,22 @@
 
 
 // Core
-#include <Core\defines>
-#include <Core\enums>
-#include <Core\serverdata>
-#include <Core\strings>
+#include <Core\Defines>
+#include <Core\Enums>
+#include <Core\ServerData>
+#include <Core\Strings>
 #include <functions>
 #include <callbacks>
-#include <Core\login>
 
 
 
 ////////////////////////////
 
 // Plyer
+#include <Player\Login>
 #include <Player\SavePlayerData>
 //Admin
-#include <Player\Admin\Init>
+#include <Player\Admin\AdminInit>
 #include <Player\Admin\Dialog>
 
 main(){}
