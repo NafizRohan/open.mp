@@ -1,5 +1,3 @@
-#include <Player\playerdata>
-
 stock bool:IsPlayerServerAdmin(playerid){
     if(gPlayerData[playerid][pAdmin]) return true;
     return false;

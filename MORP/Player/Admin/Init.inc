@@ -1,6 +1,5 @@
 #include <YSI_Coding\y_hooks>
-#include <Player\playerdata>
-#include <Player\playerdialogs>
+#include <Player\ShowDialog>
 new Float:MapX[MAX_PLAYERS], Float:MapY[MAX_PLAYERS], Float:MapZ[MAX_PLAYERS];
 
 CMD:settings(playerid, const params[]){

@@ -1,6 +1,4 @@
-#include <Player\playerdialogs>
-
-
+#include <Player\ShowDialog>
 Dialog:ShowAdminPanel(playerid, response, listitem, inputtext[]){
     if(!response) return 1;
     switch (listitem) {

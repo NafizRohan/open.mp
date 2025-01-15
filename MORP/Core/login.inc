@@ -1,7 +1,6 @@
 /* Optimized Login & Registration */
 #include <YSI_Coding\y_hooks>
-#include <Player\playerdata>
-#include <Player\playerdialogs>
+#include <Player\ShowDialog>
 
 
 hook OnPlayerRequestClass(playerid, classid) {

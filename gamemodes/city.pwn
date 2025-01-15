@@ -10,7 +10,6 @@
                                             |___/                                             |___/ 
 */
 
-#define PASSRESULT      947583875738579935764839986757
 #include <open.mp>
 #undef MAX_PLAYERS
 #define MAX_PLAYERS     100
@@ -47,10 +46,10 @@
 ////////////////////////////
 
 // Plyer
-#include <Player\saveplayerdata>
+#include <Player\SavePlayerData>
 //Admin
-#include <Admin\admin>
-#include <Admin\admindialogs>
+#include <Player\Admin\Init>
+#include <Player\Admin\Dialog>
 
 main(){}
 public OnGameModeInit()
