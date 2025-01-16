@@ -73,6 +73,9 @@ CB:OnPasswordHashed(playerid, hashid)
         "INSERT INTO `MasterData` (`MasterID`, `Username`, `Password`, `Alias1`, `Alias2`, `Alias3`) VALUES (NULL, '%e', '%e', 'NULL', 'NULL', 'NULL')",
         gMasterData[playerid][msUsername], hash);
     mysql_tquery(db, DB_query, "RefreshMasterData", "i", playerid);
+    new string[128];
+    format(string, sizeof(string), "Logs/Player/Master Accounts/%s", gMasterData[playerid][msUsername]);
+    fcreatedir(string);
     return 1;
 }
 
@@ -251,7 +254,8 @@ Dialog:ShowDialogCreate(playerid, response, listitem, inputtext[])
             "INSERT INTO `PlayerData` (`Name`, `MasterID`, `Skin`) VALUES ('%e', '%i', '%i')",
             gPlayerData[playerid][pName], gMasterData[playerid][msID], gPlayerData[playerid][pSkin]);
         mysql_tquery(db, DB_query);
-
+        format(logstr, sizeof(logstr), PLAYER_LOG_DIR"%s/%s", gMasterData[playerid][msUsername], gPlayerData[playerid][pName]);
+        fcreatedir(logstr);
         SetPlayerName(playerid, gPlayerData[playerid][pName]);
         SetPlayerSkin(playerid, gPlayerData[playerid][pSkin]);
 

@@ -1,3 +1,5 @@
+new logstr[128];
+
 stock bool:findsymbol(const string[]){
     for (new i = 0; i < strlen(string); i++)
     {

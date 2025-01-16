@@ -20,6 +20,8 @@
 #define CB:%0(%1) \
 forward %0(%1);public %0(%1)
 
+#define PLAYER_LOG_DIR "Logs/Player/Master Accounts/"
+
 #define MAX_BUSINESS 100
 #define MAX_ORGANIZATIONS 100
 #define MAX_GATES 100
