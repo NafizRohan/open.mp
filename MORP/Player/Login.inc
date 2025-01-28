@@ -118,6 +118,7 @@ CB:LoadPlayerData(playerid)
         new health, armor;
         cache_get_value_name_int(0, "PlayerID", gPlayerData[playerid][pID]);
         cache_get_value_name(0, "Name", gPlayerData[playerid][pName], MAX_PLAYER_NAME);
+        cache_get_value_int(0, "Registered", gPlayerData[playerid][pRegistered]);
 
         cache_get_value_int(0, "Skin", gPlayerData[playerid][pSkin]);
         cache_get_value_int(0, "Health", health);
@@ -131,9 +132,15 @@ CB:LoadPlayerData(playerid)
         cache_get_value_float(0, "PosZ", gPlayerData[playerid][pPos][2]);
         cache_get_value_float(0, "PosA", gPlayerData[playerid][pPos][3]);
 
-        gPlayerData[playerid][pHealth] = float(health);
-        gPlayerData[playerid][pArmor]  = float(armor);
-        gPlayerData[playerid][pLogged] = true;
+        if(gPlayerData[playerid][pRegistered]){
+            gPlayerData[playerid][pHealth] = float(health);
+            gPlayerData[playerid][pArmor]  = float(armor);
+        }
+        else{
+            gPlayerData[playerid][pRegistered] = 1;
+            gPlayerData[playerid][pHealth] = 100.0;
+            gPlayerData[playerid][pArmor]  = 100.0;
+        }
 
         SetSpawnInfo(playerid, 0, gPlayerData[playerid][pSkin],
             gPlayerData[playerid][pPos][0],
@@ -147,14 +154,39 @@ CB:LoadPlayerData(playerid)
     return 1;
 }
 
+CB:OnCharacterCreated(playerid)
+{
+    gPlayerData[playerid][pID] = cache_insert_id();
+    gPlayerData[playerid][pRegistered] = 1;
+    gPlayerData[playerid][pSkin] = 1;
+    gPlayerData[playerid][pHealth] = 100.0;
+    gPlayerData[playerid][pArmor] = 100.0;
+    gPlayerData[playerid][pThirst] = 100;
+    gPlayerData[playerid][pHunger] = 100;
+
+    format(logstr, sizeof(logstr), PLAYER_LOG_DIR"%s/%s", gMasterData[playerid][msUsername], gPlayerData[playerid][pName]);
+    fcreatedir(logstr);
+
+    mysql_format(db, DB_query, sizeof(DB_query),
+        "UPDATE `MasterData` SET `Alias%i` = '%e' WHERE `MasterID` = '%i'",
+        gMasterData[playerid][msSelected], gPlayerData[playerid][pName], gMasterData[playerid][msID]);
+    mysql_tquery(db, DB_query);
+
+    CallRemoteFunction("Spawn", "i", playerid);
+    SSM(playerid, "Character created successfully! Welcome to the server.");
+    return 1;
+}
+
 CB:Spawn(playerid)
 {
-    TogglePlayerSpectating(playerid, false);
     SetPlayerName(playerid, gPlayerData[playerid][pName]);
     SetPlayerHealthEx(playerid, gPlayerData[playerid][pHealth]);
     SetPlayerArmorEx(playerid, gPlayerData[playerid][pArmor]);
     SetPlayerColor(playerid, 0xFFFFFF00);
+    TogglePlayerSpectating(playerid, false);
+    gPlayerData[playerid][pLogged] = true;
     SpawnPlayer(playerid);
+    SetPlayerSkin(playerid, gPlayerData[playerid][pSkin]);
     return 1;
 }
 
@@ -248,21 +280,11 @@ Dialog:ShowDialogCreate(playerid, response, listitem, inputtext[])
     if (isValidUnderscoreString(inputtext))
     {
         strcpy(gPlayerData[playerid][pName], inputtext, MAX_PLAYER_NAME);
-        gPlayerData[playerid][pSkin] = 1;
 
         mysql_format(db, DB_query, sizeof(DB_query),
             "INSERT INTO `PlayerData` (`Name`, `MasterID`, `Skin`) VALUES ('%e', '%i', '%i')",
             gPlayerData[playerid][pName], gMasterData[playerid][msID], gPlayerData[playerid][pSkin]);
-        mysql_tquery(db, DB_query);
-        format(logstr, sizeof(logstr), PLAYER_LOG_DIR"%s/%s", gMasterData[playerid][msUsername], gPlayerData[playerid][pName]);
-        fcreatedir(logstr);
-        SetPlayerName(playerid, gPlayerData[playerid][pName]);
-        SetPlayerSkin(playerid, gPlayerData[playerid][pSkin]);
-
-        mysql_format(db, DB_query, sizeof(DB_query),
-            "UPDATE `MasterData` SET `Alias%i` = '%e' WHERE `MasterID` = '%i'",
-            gMasterData[playerid][msSelected], gPlayerData[playerid][pName], gMasterData[playerid][msID]);
-        mysql_tquery(db, DB_query, "Spawn", "i", playerid);
+        mysql_tquery(db, DB_query, "OnCharacterCreated", "i", playerid);
         return 1;
     }
 

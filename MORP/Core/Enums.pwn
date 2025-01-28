@@ -24,6 +24,7 @@ enum PlayerData{
     pID,
     pName[MAX_PLAYER_NAME],
     pMasterID,
+    pRegistered,
     pCode,
     pSkin,
     Float:pHealth,
