@@ -78,14 +78,18 @@ public OnPlayerRequestClass(playerid, classid)
 
 public OnPlayerConnect(playerid)
 {
-    printf("Player %d has connected to the server.", playerid);
+    new name[MAX_PLAYER_NAME];
+    GetPlayerName(playerid, name, sizeof(name));
+    printf("Player %s(%d) has connected to the server.", name, playerid);
     // Initialize player data here
     return 1;
 }
 
 public OnPlayerDisconnect(playerid, reason)
 {
-    printf("Player %d has disconnected from the server. Reason: %d", playerid, reason);
+    new name[MAX_PLAYER_NAME];
+    GetPlayerName(playerid, name, sizeof(name));
+    printf("Player %s(%d) has disconnected from the server. Reason: %d", name, playerid, reason);
     // Save player data and perform cleanup here
     return 1;
 }

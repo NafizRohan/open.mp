@@ -60,10 +60,9 @@ stock bool:ShowDialog(playerid, dialogid, const string[] = "") {
         }
         case DIALOG_GENDER:
         {
-            Dialog_Show(playerid, ShowDialogGender, DIALOG_STYLE_LIST,
+            Dialog_Show(playerid, ShowDialogGender, DIALOG_STYLE_TABLIST_HEADERS,
                 COLOR_YELLOW "Select Gender",
-                "Select your character's gender:",
-                "Male\nFemale", "Select", "Cancel");
+                "Select your character's gender\nMale\nFemale", "Select", "Cancel");
             return true;
         }
         case DIALOG_AGE:

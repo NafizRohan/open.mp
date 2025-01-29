@@ -10,6 +10,20 @@ hook OnPlayerRequestClass(playerid, classid)
     return 1;
 }
 
+// Function to check if password is strong
+bool:isStrongPassword(const password[])
+{
+    new hasUpper, hasLower, hasDigit, hasSpecial;
+    for (new i = 0, len = strlen(password); i < len; i++)
+    {
+        if (password[i] >= 'A' && password[i] <= 'Z') hasUpper = true;
+        else if (password[i] >= 'a' && password[i] <= 'z') hasLower = true;
+        else if (password[i] >= '0' && password[i] <= '9') hasDigit = true;
+        else hasSpecial = true;
+    }
+    return hasUpper && hasLower && hasDigit && hasSpecial;
+}
+
 // Callback to check player's master account
 CB:CheckPlayerMasterAccount(playerid)
 {
@@ -206,14 +220,21 @@ Dialog:ShowRegisterDialog(playerid, response, listitem, inputtext[])
     {
         if (isnull(inputtext))
         {
-            Dialog_Show(playerid, ShowRegisterDialog, DIALOG_STYLE_PASSWORD,
+            return Dialog_Show(playerid, ShowRegisterDialog, DIALOG_STYLE_PASSWORD,
                 COLOR_YELLOW "Set Password",
                 "Password cannot be empty. Please set a strong password:",
                 "Continue", "Cancel");
         }
+        else if (strlen(inputtext) < 8 || !isStrongPassword(inputtext))
+        {
+            return Dialog_Show(playerid, ShowRegisterDialog, DIALOG_STYLE_PASSWORD,
+                COLOR_YELLOW "Set Password",
+                "Password must be at least 8 characters long and contain a mix of\nletters(at least one uppercase), numbers, and special characters.\nPlease enter a stronger password:",
+                "Submit", "Cancel");
+        }
         else
         {
-            bcrypt_hash(playerid, "OnPasswordHashed", inputtext, 12);
+            return bcrypt_hash(playerid, "OnPasswordHashed", inputtext, 12);
         }
     }
     else
@@ -221,20 +242,6 @@ Dialog:ShowRegisterDialog(playerid, response, listitem, inputtext[])
         CallRemoteFunction("KickPlayer", "i", playerid);
     }
     return 1;
-}
-
-// Function to check if password is strong
-bool:isStrongPassword(const password[])
-{
-    new hasUpper, hasLower, hasDigit, hasSpecial;
-    for (new i = 0, len = strlen(password); i < len; i++)
-    {
-        if (password[i] >= 'A' && password[i] <= 'Z') hasUpper = true;
-        else if (password[i] >= 'a' && password[i] <= 'z') hasLower = true;
-        else if (password[i] >= '0' && password[i] <= '9') hasDigit = true;
-        else hasSpecial = true;
-    }
-    return hasUpper && hasLower && hasDigit && hasSpecial;
 }
 
 // Dialog to show password box
@@ -248,13 +255,6 @@ Dialog:ShowPasswordBox(playerid, response, listitem, inputtext[])
                 COLOR_YELLOW "Login",
                 "Password field is required. Please enter your password:",
                 "Submit", "Cancel");  
-        }
-        if (strlen(inputtext) < 8 || !isStrongPassword(inputtext))
-        {
-            Dialog_Show(playerid, ShowPasswordBox, DIALOG_STYLE_PASSWORD,
-                COLOR_YELLOW "Login",
-                "Password must be at least 8 characters long and contain a mix of letters, numbers, and special characters. Please enter a stronger password:",
-                "Submit", "Cancel");
         }
         else
         {
