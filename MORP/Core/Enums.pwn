@@ -27,12 +27,15 @@ enum PlayerData{
     pRegistered,
     pCode,
     pSkin,
+    pGender,
+    pAge,
     Float:pHealth,
     Float:pArmor,
     pHunger,
     pThirst,
     Float:pPos[4],
     bool:pLogged,
-    pAdmin
+    pAdmin,
+    pMoney
 };
 new gPlayerData[MAX_PLAYERS][PlayerData];

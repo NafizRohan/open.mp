@@ -1,6 +1,7 @@
 #include <YSI_Coding\y_hooks>
 #include <Player\ShowDialog>
 
+// Hook for player class request
 hook OnPlayerRequestClass(playerid, classid)
 {
     if (IsPlayerNPC(playerid)) return 1;
@@ -9,6 +10,7 @@ hook OnPlayerRequestClass(playerid, classid)
     return 1;
 }
 
+// Callback to check player's master account
 CB:CheckPlayerMasterAccount(playerid)
 {
     new name[MAX_PLAYER_NAME];
@@ -27,6 +29,7 @@ CB:CheckPlayerMasterAccount(playerid)
     return 1;
 }
 
+// Callback to check player's accounts
 CB:CheckPlayerAccounts(playerid)
 {
     new rows;
@@ -53,6 +56,7 @@ CB:CheckPlayerAccounts(playerid)
     return 1;
 }
 
+// Callback to refresh master data
 CB:RefreshMasterData(playerid)
 {
     gMasterData[playerid][msID] = cache_insert_id();
@@ -64,6 +68,7 @@ CB:RefreshMasterData(playerid)
     return 1;
 }
 
+// Callback for password hashing
 CB:OnPasswordHashed(playerid, hashid)
 {
     new hash[BCRYPT_HASH_LENGTH];
@@ -74,11 +79,12 @@ CB:OnPasswordHashed(playerid, hashid)
         gMasterData[playerid][msUsername], hash);
     mysql_tquery(db, DB_query, "RefreshMasterData", "i", playerid);
     new string[128];
-    format(string, sizeof(string), "Logs/Player/Master Accounts/%s", gMasterData[playerid][msUsername]);
+    format(string, sizeof(string), PLAYER_LOG_DIR"%s", gMasterData[playerid][msUsername]);
     fcreatedir(string);
     return 1;
 }
 
+// Callback for password verification
 CB:OnPasswordVerify(playerid, bool:success)
 {
     if (success)
@@ -108,6 +114,7 @@ CB:OnPasswordVerify(playerid, bool:success)
     return 1;
 }
 
+// Callback to load player data
 CB:LoadPlayerData(playerid)
 {
     new rows;
@@ -154,6 +161,7 @@ CB:LoadPlayerData(playerid)
     return 1;
 }
 
+// Callback for character creation
 CB:OnCharacterCreated(playerid)
 {
     gPlayerData[playerid][pID] = cache_insert_id();
@@ -177,6 +185,7 @@ CB:OnCharacterCreated(playerid)
     return 1;
 }
 
+// Callback to spawn player
 CB:Spawn(playerid)
 {
     SetPlayerName(playerid, gPlayerData[playerid][pName]);
@@ -190,6 +199,7 @@ CB:Spawn(playerid)
     return 1;
 }
 
+// Dialog to show register dialog
 Dialog:ShowRegisterDialog(playerid, response, listitem, inputtext[])
 {
     if (response)
@@ -213,15 +223,37 @@ Dialog:ShowRegisterDialog(playerid, response, listitem, inputtext[])
     return 1;
 }
 
+// Function to check if password is strong
+bool:isStrongPassword(const password[])
+{
+    new hasUpper, hasLower, hasDigit, hasSpecial;
+    for (new i = 0, len = strlen(password); i < len; i++)
+    {
+        if (password[i] >= 'A' && password[i] <= 'Z') hasUpper = true;
+        else if (password[i] >= 'a' && password[i] <= 'z') hasLower = true;
+        else if (password[i] >= '0' && password[i] <= '9') hasDigit = true;
+        else hasSpecial = true;
+    }
+    return hasUpper && hasLower && hasDigit && hasSpecial;
+}
+
+// Dialog to show password box
 Dialog:ShowPasswordBox(playerid, response, listitem, inputtext[])
 {
     if (response)
     {
         if (isnull(inputtext))
         {
+            return Dialog_Show(playerid, ShowPasswordBox, DIALOG_STYLE_PASSWORD,
+                COLOR_YELLOW "Login",
+                "Password field is required. Please enter your password:",
+                "Submit", "Cancel");  
+        }
+        if (strlen(inputtext) < 8 || !isStrongPassword(inputtext))
+        {
             Dialog_Show(playerid, ShowPasswordBox, DIALOG_STYLE_PASSWORD,
                 COLOR_YELLOW "Login",
-                "Password cannot be empty. Please enter your password:",
+                "Password must be at least 8 characters long and contain a mix of letters, numbers, and special characters. Please enter a stronger password:",
                 "Submit", "Cancel");
         }
         else
@@ -236,6 +268,7 @@ Dialog:ShowPasswordBox(playerid, response, listitem, inputtext[])
     return 1;
 }
 
+// Dialog to show character box
 Dialog:ShowCharacterBox(playerid, response, listitem, inputtext[])
 {
     if (!response) return 1;
@@ -267,6 +300,7 @@ Dialog:ShowCharacterBox(playerid, response, listitem, inputtext[])
     return 1;
 }
 
+// Dialog to show character creation dialog
 Dialog:ShowDialogCreate(playerid, response, listitem, inputtext[])
 {
     if (!response) return CallRemoteFunction("KickPlayer", "i", playerid);
@@ -280,11 +314,7 @@ Dialog:ShowDialogCreate(playerid, response, listitem, inputtext[])
     if (isValidUnderscoreString(inputtext))
     {
         strcpy(gPlayerData[playerid][pName], inputtext, MAX_PLAYER_NAME);
-
-        mysql_format(db, DB_query, sizeof(DB_query),
-            "INSERT INTO `PlayerData` (`Name`, `MasterID`, `Skin`) VALUES ('%e', '%i', '%i')",
-            gPlayerData[playerid][pName], gMasterData[playerid][msID], gPlayerData[playerid][pSkin]);
-        mysql_tquery(db, DB_query, "OnCharacterCreated", "i", playerid);
+        ShowDialog(playerid, DIALOG_GENDER);
         return 1;
     }
 
@@ -293,3 +323,47 @@ Dialog:ShowDialogCreate(playerid, response, listitem, inputtext[])
     return 1;
 }
 
+// Dialog to show gender selection dialog
+Dialog:ShowDialogGender(playerid, response, listitem, inputtext[])
+{
+    if (!response) return CallRemoteFunction("KickPlayer", "i", playerid);
+
+    if (listitem == 0)
+    {
+        gPlayerData[playerid][pGender] = 0; // Male
+    }
+    else if (listitem == 1)
+    {
+        gPlayerData[playerid][pGender] = 1; // Female
+    }
+    else
+    {
+        ShowDialog(playerid, DIALOG_GENDER);
+        return 1;
+    }
+
+    ShowDialog(playerid, DIALOG_AGE);
+    return 1;
+}
+
+// Dialog to show age selection dialog
+Dialog:ShowDialogAge(playerid, response, listitem, inputtext[])
+{
+    if (!response) return CallRemoteFunction("KickPlayer", "i", playerid);
+
+    new age = strval(inputtext);
+    if (age < 18 || age > 100)
+    {
+        SEM(playerid, "Please enter a valid age between 18 and 100.");
+        ShowDialog(playerid, DIALOG_AGE);
+        return 1;
+    }
+
+    gPlayerData[playerid][pAge] = age;
+
+    mysql_format(db, DB_query, sizeof(DB_query),
+        "INSERT INTO `PlayerData` (`Name`, `MasterID`, `Skin`, `Gender`, `Age`) VALUES ('%e', '%i', '%i', '%i', '%i')",
+        gPlayerData[playerid][pName], gMasterData[playerid][msID], gPlayerData[playerid][pSkin], gPlayerData[playerid][pGender], gPlayerData[playerid][pAge]);
+    mysql_tquery(db, DB_query, "OnCharacterCreated", "i", playerid);
+    return 1;
+}

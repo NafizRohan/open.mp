@@ -23,14 +23,12 @@
 #include <YSI_Data\y_foreach>
 
 /*
-     ___      _
-    / __| ___| |_ _  _ _ __
-    \__ \/ -_)  _| || | '_ \
-    |___/\___|\__|\_,_| .__/
-                      |_|
+         ___      _
+        / __| ___| |_ _  _ _ __
+        \__ \/ -_)  _| || | '_ \
+        |___/\___|\__|\_,_| .__/
+                          |_|
 */
-
-
 
 // Core
 #include <Core\Defines>
@@ -40,34 +38,54 @@
 #include <functions>
 #include <callbacks>
 
-
-
-////////////////////////////
-
-// Plyer
+// Player
 #include <Player\Login>
 #include <Player\SavePlayerData>
-//Admin
+// Admin
 #include <Player\Admin\AdminInit>
 #include <Player\Admin\Dialog>
 
-main(){}
+main() {}
+
 public OnGameModeInit()
 {
-    
     printf(" ");
     printf("  -------------------------------");
-	printf("  |  Loaded all Gamemode files  |");
-	printf("  -------------------------------");
-	printf(" ");
-    MapAndreas_Init(MAP_ANDREAS_MODE_FULL, "scriptfiles/SAfull.hmap");
+    printf("  |  Loaded all Gamemode files  |");
+    printf("  -------------------------------");
+    printf(" ");
+    
+    if (!MapAndreas_Init(MAP_ANDREAS_MODE_FULL, "scriptfiles/SAfull.hmap"))
+    {
+            printf("MapAndreas initialization failed!");
+            return 0;
+    }
+    
     return 1;
 }
 
-public OnGameModeExit(){
+public OnGameModeExit()
+{
+    // Perform any necessary cleanup here
     return 1;
 }
 
-public OnPlayerRequestClass(playerid, classid){
+public OnPlayerRequestClass(playerid, classid)
+{
+    // Handle player class selection here
+    return 1;
+}
+
+public OnPlayerConnect(playerid)
+{
+    printf("Player %d has connected to the server.", playerid);
+    // Initialize player data here
+    return 1;
+}
+
+public OnPlayerDisconnect(playerid, reason)
+{
+    printf("Player %d has disconnected from the server. Reason: %d", playerid, reason);
+    // Save player data and perform cleanup here
     return 1;
 }
