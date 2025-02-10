@@ -12,6 +12,7 @@
 #define AQUA				"{24F0FF}"
 
 #define COLOR_YELLOW "{FFFF00}"
+#define COLOR_WHITE				"{FFFFFF}"
 
 #define SCM         SendClientMessage
 #define SEM         SendErrorMessage
@@ -22,7 +23,8 @@ forward %0(%1);public %0(%1)
 
 #define PLAYER_LOG_DIR "Logs/Player/Master Accounts/"
 
-#define MAX_BUSINESS 100
-#define MAX_ORGANIZATIONS 100
-#define MAX_GATES 100
-#define MAX_ADMINS 10
+#define MAX_BUSINESS            100
+#define MAX_ORGANIZATIONS       100
+#define MAX_GATES               100
+#define MAX_ADMINS              10
+#define MAX_JOBS                10

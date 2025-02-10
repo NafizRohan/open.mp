@@ -39,3 +39,18 @@ enum PlayerData{
     pMoney
 };
 new gPlayerData[MAX_PLAYERS][PlayerData];
+
+enum JobData{
+    jID,
+    jName[64],
+    jType,
+    jSkin,
+    jSalary,
+    jOwnerID,
+    jOwner[64],
+    Float:jPos[3],
+    STREAMER_TAG_PICKUP:jPickup,
+    STREAMER_TAG_3D_TEXT_LABEL:jLabel,
+    jExists
+};
+new gJobData[MAX_JOBS][JobData];

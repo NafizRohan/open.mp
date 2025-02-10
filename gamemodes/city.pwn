@@ -18,6 +18,7 @@
 #include <mapandreas>
 #include <Pawn.CMD>
 #include <sscanf2>
+#include <streamer>
 #include <dini2>
 #include <easyDialog>
 #include <YSI_Data\y_foreach>
@@ -44,6 +45,8 @@
 // Admin
 #include <Player\Admin\AdminInit>
 #include <Player\Admin\Dialog>
+// Job
+#include <Job\LoadJob>
 
 main() {}
 
