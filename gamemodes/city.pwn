@@ -60,8 +60,8 @@ public OnGameModeInit()
     
     if (!MapAndreas_Init(MAP_ANDREAS_MODE_FULL, "scriptfiles/SAfull.hmap"))
     {
-            printf("MapAndreas initialization failed!");
-            return 0;
+        printf("MapAndreas initialization failed!");
+        return 0;
     }
     
     return 1;

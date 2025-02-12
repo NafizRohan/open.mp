@@ -59,7 +59,7 @@ stock bool:SetPlayerHealthEx(playerid, Float:health){
 	SetPlayerHealth(playerid, health);
 	gPlayerData[playerid][pHealth] = health;
 
-	mysql_format(db, DB_query, sizeof(DB_query), "UPDATE `PlayerData` SET `Health` = '%i' WHERE `ID` = %i",
+	mysql_format(db, DB_query, sizeof(DB_query), "UPDATE `PlayerData` SET `Health` = '%i' WHERE `PlayerID` = %i",
 	floatround(gPlayerData[playerid][pHealth]), gPlayerData[playerid][pID]);
 	mysql_tquery(db, DB_query);
 	return true;
@@ -69,7 +69,7 @@ stock bool:SetPlayerArmorEx(playerid, Float:armor){
     SetPlayerArmour(playerid, armor);
     gPlayerData[playerid][pArmor] = armor;
 
-    mysql_format(db, DB_query, sizeof(DB_query), "UPDATE `PlayerData` SET `Armor` = '%i' WHERE `ID` = %i",
+    mysql_format(db, DB_query, sizeof(DB_query), "UPDATE `PlayerData` SET `Armor` = '%i' WHERE `PlayerID` = %i",
     floatround(gPlayerData[playerid][pArmor]), gPlayerData[playerid][pID]);
     mysql_tquery(db, DB_query);
     return true;

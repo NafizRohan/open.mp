@@ -77,12 +77,6 @@ Dialog:ShowDialogAdminTeleport(playerid, response, listitem, inputtext[])
         }
         case 1:
         {
-            if(MapX[playerid] == 0.0 && MapY[playerid] == 0.0 && MapZ[playerid] == 0.0)
-            {
-                SEM(playerid, "You have not selected a location on the map.");
-                return true;
-            }
-            TeleportToCoords(playerid, MapX[playerid], MapY[playerid], MapZ[playerid]);
             return true;
         }
         case 2:
@@ -96,6 +90,17 @@ Dialog:ShowDialogAdminTeleport(playerid, response, listitem, inputtext[])
         }
         case 4:
         {
+            return true;
+        }
+        case 5:
+        {
+            if(MapX[playerid] == 0.0 && MapY[playerid] == 0.0 && MapZ[playerid] == 0.0)
+            {
+                SEM(playerid, "You have not selected a location on the map.");
+                return true;
+            }
+            TeleportToCoords(playerid, MapX[playerid], MapY[playerid], MapZ[playerid]);
+            SSM(playerid, "You have been teleported to the selected location.");
             return true;
         }
         default: return true;
