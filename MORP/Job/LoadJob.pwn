@@ -1,6 +1,6 @@
 CB:LoadJob()
 {
-    new rows, string[128];
+    new rows;
     cache_get_row_count(rows);
     if(rows){
         for(new i = 0; i < rows; i++){
@@ -16,22 +16,27 @@ CB:LoadJob()
             cache_get_value_float(i, "JobPosZ", gJobData[i][jPos][2]);
             cache_get_value_name(i, "JobOwner", gJobData[i][jOwner]);
 
-            if(gJobData[i][jExists]){
-                format(string, sizeof(string), ""COLOR_YELLOW"%s(%d)\n"COLOR_WHITE"Salary: "COLOR_YELLOW"$%d\n"COLOR_WHITE"Owner: "COLOR_YELLOW"%s\n",
-                    gJobData[i][jName],
-                    gJobData[i][jID],
-                    gJobData[i][jSalary],
-                    gJobData[i][jOwner]);
-                if(IsValidDynamicPickup(gJobData[i][jPickup])){
-                    DestroyDynamicPickup(gJobData[i][jPickup]);
-                }
-                if(IsValidDynamic3DTextLabel(gJobData[i][jLabel])){
-                    DestroyDynamic3DTextLabel(gJobData[i][jLabel]);
-                }
-                gJobData[i][jLabel] = CreateDynamic3DTextLabel(string, SERVER_COLOR, gJobData[i][jPos][0], gJobData[i][jPos][1], gJobData[i][jPos][2], 20.0, .worldid = -1, .interiorid = -1);
-                gJobData[i][jPickup] = CreateDynamicPickup(1274, 23, gJobData[i][jPos][0], gJobData[i][jPos][1], gJobData[i][jPos][2], -1, 0, 0, 0);
-            }
+            ReloadJob(i);
         }
+    }
+}
+
+stock ReloadJob(jobid){
+    new string[128];
+    if(gJobData[jobid][jExists]){
+        format(string, sizeof(string), ""COLOR_YELLOW"%s(%d)\n"COLOR_WHITE"Salary: "COLOR_YELLOW"$%d\n"COLOR_WHITE"Owner: "COLOR_YELLOW"%s\n",
+            gJobData[jobid][jName],
+            gJobData[jobid][jID],
+            gJobData[jobid][jSalary],
+            gJobData[jobid][jOwner]);
+        if(IsValidDynamicPickup(gJobData[jobid][jPickup])){
+            DestroyDynamicPickup(gJobData[jobid][jPickup]);
+        }
+        if(IsValidDynamic3DTextLabel(gJobData[jobid][jLabel])){
+            DestroyDynamic3DTextLabel(gJobData[jobid][jLabel]);
+        }
+        gJobData[jobid][jLabel] = CreateDynamic3DTextLabel(string, SERVER_COLOR, gJobData[jobid][jPos][0], gJobData[jobid][jPos][1], gJobData[jobid][jPos][2], 20.0, .worldid = -1, .interiorid = -1);
+        gJobData[jobid][jPickup] = CreateDynamicPickup(1274, 23, gJobData[jobid][jPos][0], gJobData[jobid][jPos][1], gJobData[jobid][jPos][2], -1, 0, 0, 0);
     }
 }
 hook OnGameModeInit()

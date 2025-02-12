@@ -47,6 +47,7 @@
 #include <Player\Admin\Dialog>
 // Job
 #include <Job\LoadJob>
+#include <Job\CreateJob>
 
 main() {}
 
