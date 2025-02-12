@@ -11,9 +11,9 @@ CB:LoadJob()
             cache_get_value_int(i, "JobSalary", gJobData[i][jSalary]);
             cache_get_value_int(i, "JobOwnerID", gJobData[i][jOwnerID]);
             cache_get_value_int(i, "JobExists", gJobData[i][jExists]);
-            cache_get_value_float(i, "JobPickupX", gJobData[i][jPos][0]);
-            cache_get_value_float(i, "JobPickupY", gJobData[i][jPos][1]);
-            cache_get_value_float(i, "JobPickupZ", gJobData[i][jPos][2]);
+            cache_get_value_float(i, "JobPosX", gJobData[i][jPos][0]);
+            cache_get_value_float(i, "JobPosY", gJobData[i][jPos][1]);
+            cache_get_value_float(i, "JobPosZ", gJobData[i][jPos][2]);
             cache_get_value_name(i, "JobOwner", gJobData[i][jOwner]);
 
             if(gJobData[i][jExists]){

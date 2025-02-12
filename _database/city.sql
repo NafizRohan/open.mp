@@ -1,28 +1,28 @@
--- Create table MasterData
 CREATE TABLE MasterData (
   `MasterID` INT AUTO_INCREMENT PRIMARY KEY,
-  `Username` VARCHAR(50) DEFAULT 'Null',
-  `Password` VARCHAR(64) DEFAULT 'Null',
-  `Alias1` VARCHAR(24) DEFAULT 'Null',
-  `Alias2` VARCHAR(24) DEFAULT 'Null',
-  `Alias3` VARCHAR(24) DEFAULT 'Null'
+  `Username` VARCHAR(50) NOT NULL,
+  `Password` VARCHAR(64) NOT NULL,
+  `Alias1` VARCHAR(24) DEFAULT NULL,
+  `Alias2` VARCHAR(24) DEFAULT NULL,
+  `Alias3` VARCHAR(24) DEFAULT NULL
 );
 
 -- Create table PlayerData
 CREATE TABLE PlayerData (
-  `PlayerID` INT(4) AUTO_INCREMENT PRIMARY KEY,
-  `MasterID` INT(4) DEFAULT 0,
-  `Name` VARCHAR(24) DEFAULT 'Null',
-  `Code` INT(4) DEFAULT NULL,
-  `Skin` INT(6) DEFAULT 0,
-  `Health` INT(3) DEFAULT 100,
-  `Armor` INT(3) DEFAULT 100,
-  `Hunger` INT(3) DEFAULT 100,
-  `Thirst` INT(3) DEFAULT 100,
+  `PlayerID` INT AUTO_INCREMENT PRIMARY KEY,
+  `MasterID` INT NOT NULL,
+  `Name` VARCHAR(24) NOT NULL,
+  `Code` INT DEFAULT NULL,
+  `Skin` INT DEFAULT 0,
+  `Health` INT DEFAULT 100,
+  `Armor` INT DEFAULT 100,
+  `Hunger` INT DEFAULT 100,
+  `Thirst` INT DEFAULT 100,
   `PosX` FLOAT DEFAULT 0.0,
   `PosY` FLOAT DEFAULT 0.0,
   `PosZ` FLOAT DEFAULT 0.0,
-  `PosA` FLOAT DEFAULT 0.0
+  `PosA` FLOAT DEFAULT 0.0,
+  FOREIGN KEY (`MasterID`) REFERENCES MasterData(`MasterID`) ON DELETE CASCADE
 );
 
 -- Create table TrustedDevices
@@ -31,5 +31,23 @@ CREATE TABLE TrustedDevices (
   `MasterID` INT NOT NULL,
   `DeviceHash` VARCHAR(128) NOT NULL,
   `LastUsedIP` VARCHAR(45) NOT NULL,
-  `AddedTimestamp` DATETIME DEFAULT CURRENT_TIMESTAMP
+  `AddedTimestamp` DATETIME DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (`MasterID`) REFERENCES MasterData(`MasterID`) ON DELETE CASCADE
+);
+
+-- Create Table Job
+CREATE TABLE Job (
+  `JobID` INT AUTO_INCREMENT PRIMARY KEY,
+  `JobName` VARCHAR(64) NOT NULL,
+  `JobOwner` VARCHAR(24) DEFAULT NULL,
+  `JobOwnerID` INT DEFAULT 0,
+  `JobType` INT DEFAULT 0,
+  `JobSalary` INT DEFAULT 0,
+  `JobExists` INT DEFAULT 0,
+  `JobPosX` FLOAT DEFAULT 0.0,
+  `JobPosY` FLOAT DEFAULT 0.0,
+  `JobPosZ` FLOAT DEFAULT 0.0,
+  `JobSkin` INT DEFAULT 0,
+  FOREIGN KEY (`JobOwnerID`) REFERENCES PlayerData(`PlayerID`) ON DELETE CASCADE,
+  FOREIGN KEY (`JobOwner`) REFERENCES PlayerData(`Name`) ON DELETE CASCADE
 );
