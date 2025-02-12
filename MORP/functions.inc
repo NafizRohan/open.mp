@@ -80,7 +80,7 @@ stock bool:IsBusiness(bizid){
 	return false;
 }
 
-stock SendMessage(playerid, color, const text[], {Float,_}:...)
+stock bool:SendMessage(playerid, color, const text[], {Float,_}:...)
 {
 	static
   	    args,
@@ -114,24 +114,24 @@ stock SendMessage(playerid, color, const text[], {Float,_}:...)
 
 		#emit RETN
 	}
-	return 1;
+	return true;
 }
 
-stock SendServerMessage(playerid, const message[])
+stock bool:SendServerMessage(playerid, const message[])
 {
 	return SendMessage(playerid, -1, ""AQUA"Server: "WHITE"%s", message);
 }
-stock SendErrorMessage(playerid, const message[])
+stock bool:SendErrorMessage(playerid, const message[])
 {
     return SendMessage(playerid, -1, ""RED"Error: "WHITE"%s", message);
 }
 
-stock SendAdminMessage(playerid, const message[])
+stock bool:SendAdminMessage(playerid, const message[])
 {
 	return SendMessage(playerid, -1, ""GREEN"Admin: "WHITE"%s", message);
 }
 
-stock SendAdminMessageToAll(const message[])
+stock bool:SendAdminMessageToAll(const message[])
 {
 	new i;
 	for(i = 0; i < MAX_PLAYERS; i++)
@@ -144,7 +144,7 @@ stock SendAdminMessageToAll(const message[])
 	return 1;
 }
 
-stock SendServerMessageToAll(const message[])
+stock bool:SendServerMessageToAll(const message[])
 {
 	new i;
 	for(i = 0; i < MAX_PLAYERS; i++)
@@ -157,7 +157,7 @@ stock SendServerMessageToAll(const message[])
 	return 1;
 }
 
-stock SendErrorMessageToAll(const message[])
+stock bool:SendErrorMessageToAll(const message[])
 {
 	new i;
 	for(i = 0; i < MAX_PLAYERS; i++)

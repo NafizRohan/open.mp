@@ -1,4 +1,4 @@
-CREATE TABLE MasterData (
+CREATE TABLE IF NOT EXISTS MasterData (
   `MasterID` INT AUTO_INCREMENT PRIMARY KEY,
   `Username` VARCHAR(50) NOT NULL,
   `Password` VARCHAR(64) NOT NULL,
@@ -8,12 +8,15 @@ CREATE TABLE MasterData (
 );
 
 -- Create table PlayerData
-CREATE TABLE PlayerData (
+CREATE TABLE IF NOT EXISTS PlayerData (
   `PlayerID` INT AUTO_INCREMENT PRIMARY KEY,
   `MasterID` INT NOT NULL,
   `Name` VARCHAR(24) NOT NULL,
-  `Code` INT DEFAULT NULL,
+  `Registered` INT(1) DEFAULT 0,
+  `Code` INT(4) NOT NULL,
   `Skin` INT DEFAULT 0,
+  `Gender` INT(1) DEFAULT 0,
+  `Age` INT(100) DEFAULT 0,
   `Health` INT DEFAULT 100,
   `Armor` INT DEFAULT 100,
   `Hunger` INT DEFAULT 100,
@@ -26,7 +29,7 @@ CREATE TABLE PlayerData (
 );
 
 -- Create table TrustedDevices
-CREATE TABLE TrustedDevices (
+CREATE TABLE IF NOT EXISTS TrustedDevices (
   `TrustedID` INT AUTO_INCREMENT PRIMARY KEY,
   `MasterID` INT NOT NULL,
   `DeviceHash` VARCHAR(128) NOT NULL,
@@ -36,10 +39,10 @@ CREATE TABLE TrustedDevices (
 );
 
 -- Create Table Job
-CREATE TABLE Job (
+CREATE TABLE IF NOT EXISTS Jobs (
   `JobID` INT AUTO_INCREMENT PRIMARY KEY,
   `JobName` VARCHAR(64) NOT NULL,
-  `JobOwner` VARCHAR(24) DEFAULT NULL,
+  `JobOwner` VARCHAR(24) NOT NULL,
   `JobOwnerID` INT DEFAULT 0,
   `JobType` INT DEFAULT 0,
   `JobSalary` INT DEFAULT 0,
@@ -47,7 +50,5 @@ CREATE TABLE Job (
   `JobPosX` FLOAT DEFAULT 0.0,
   `JobPosY` FLOAT DEFAULT 0.0,
   `JobPosZ` FLOAT DEFAULT 0.0,
-  `JobSkin` INT DEFAULT 0,
-  FOREIGN KEY (`JobOwnerID`) REFERENCES PlayerData(`PlayerID`) ON DELETE CASCADE,
-  FOREIGN KEY (`JobOwner`) REFERENCES PlayerData(`Name`) ON DELETE CASCADE
+  `JobSkin` INT DEFAULT 0
 );

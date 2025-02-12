@@ -51,6 +51,6 @@ enum JobData{
     Float:jPos[3],
     STREAMER_TAG_PICKUP:jPickup,
     STREAMER_TAG_3D_TEXT_LABEL:jLabel,
-    jExists
+    bool:jExists
 };
 new gJobData[MAX_JOBS][JobData];

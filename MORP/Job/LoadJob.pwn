@@ -10,7 +10,7 @@ CB:LoadJob()
             cache_get_value_int(i, "JobSkin", gJobData[i][jSkin]);
             cache_get_value_int(i, "JobSalary", gJobData[i][jSalary]);
             cache_get_value_int(i, "JobOwnerID", gJobData[i][jOwnerID]);
-            cache_get_value_int(i, "JobExists", gJobData[i][jExists]);
+            cache_get_value_bool(i, "JobExists", gJobData[i][jExists]);
             cache_get_value_float(i, "JobPosX", gJobData[i][jPos][0]);
             cache_get_value_float(i, "JobPosY", gJobData[i][jPos][1]);
             cache_get_value_float(i, "JobPosZ", gJobData[i][jPos][2]);
@@ -41,6 +41,6 @@ stock ReloadJob(jobid){
 }
 hook OnGameModeInit()
 {
-    mysql_tquery(db, "SELECT * FROM `jobs`", "LoadJob");
+    mysql_tquery(db, "SELECT * FROM `Jobs`", "LoadJob");
     return 1;
 }
