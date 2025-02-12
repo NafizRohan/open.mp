@@ -9,8 +9,8 @@ stock bool:SavePlayerData(playerid){
     GetPlayerFacingAngle(playerid, gPlayerData[playerid][pPos][3]);
 
     mysql_format(db, DB_query, sizeof(DB_query), 
-        "UPDATE `PlayerData` SET `Health` = '%f', `Armor` = '%f', `Thirst` = '%d', `Hunger` = '%d', `PosX` = '%f', `PosY` = '%f', `PosZ` = '%f', `PosA` = '%f' WHERE `PlayerID` = '%d'",
-        gPlayerData[playerid][pHealth], gPlayerData[playerid][pArmor], gPlayerData[playerid][pThirst], gPlayerData[playerid][pHunger], gPlayerData[playerid][pPos][0], gPlayerData[playerid][pPos][1], gPlayerData[playerid][pPos][2], gPlayerData[playerid][pPos][3], gPlayerData[playerid][pID]);
+        "UPDATE `PlayerData` SET `Health` = '%f', `Armor` = '%f', `Thirst` = '%d', `Skin` = '%d' `Hunger` = '%d', `PosX` = '%f', `PosY` = '%f', `PosZ` = '%f', `PosA` = '%f' WHERE `PlayerID` = '%d'",
+        gPlayerData[playerid][pHealth], gPlayerData[playerid][pArmor], gPlayerData[playerid][pThirst], gPlayerData[playerid][pSkin],gPlayerData[playerid][pHunger], gPlayerData[playerid][pPos][0], gPlayerData[playerid][pPos][1], gPlayerData[playerid][pPos][2], gPlayerData[playerid][pPos][3], gPlayerData[playerid][pID]);
     mysql_tquery(db, DB_query);
     
     return true;

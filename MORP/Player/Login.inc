@@ -209,7 +209,7 @@ CB:Spawn(playerid)
     TogglePlayerSpectating(playerid, false);
     gPlayerData[playerid][pLogged] = true;
     SpawnPlayer(playerid);
-    SetPlayerSkin(playerid, gPlayerData[playerid][pSkin]);
+    SetPlayerSkinEx(playerid, gPlayerData[playerid][pSkin]);
     return 1;
 }
 
@@ -362,8 +362,8 @@ Dialog:ShowDialogAge(playerid, response, listitem, inputtext[])
     gPlayerData[playerid][pAge] = age;
 
     mysql_format(db, DB_query, sizeof(DB_query),
-        "INSERT INTO `PlayerData` (`Name`, `MasterID`, `Skin`, `Gender`, `Age`) VALUES ('%e', '%i', '%i', '%i', '%i')",
-        gPlayerData[playerid][pName], gMasterData[playerid][msID], gPlayerData[playerid][pSkin], gPlayerData[playerid][pGender], gPlayerData[playerid][pAge]);
+        "INSERT INTO `PlayerData` (`Name`, `MasterID`, `Gender`, `Age`) VALUES ('%e', '%i', '%i', '%i')",
+        gPlayerData[playerid][pName], gMasterData[playerid][msID], gPlayerData[playerid][pGender], gPlayerData[playerid][pAge]);
     mysql_tquery(db, DB_query, "OnCharacterCreated", "i", playerid);
     return 1;
 }

@@ -75,6 +75,16 @@ stock bool:SetPlayerArmorEx(playerid, Float:armor){
     return true;
 }
 
+stock bool:SetPlayerSkinEx(playerid, skinid) {
+	SetPlayerSkin(playerid, skinid);
+	gPlayerData[playerid][pSkin] = skinid;
+
+	mysql_format(db, DB_query, sizeof(DB_query), "UPDATE `PlayerData` SET `Skin` = '%i' WHERE `PlayerID` = %i",
+	gPlayerData[playerid][pSkin], gPlayerData[playerid][pID]);
+	mysql_tquery(db, DB_query);
+	return true;
+}
+
 stock bool:IsBusiness(bizid){
 	if(gBusinessData[bizid][bID] != 0) return true;
 	return false;
