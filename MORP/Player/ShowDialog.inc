@@ -21,7 +21,10 @@ enum {
     DIALOG_ADMIN_CHECK_ADMINS,
     DIALOG_ADMIN_SET_ADMIN,
     // Server Details
-    DIALOG_SERVER_DETAILS
+    DIALOG_SERVER_DETAILS,
+    // Funtions
+    DIALOG_CREATE_JOB1,
+    DIALOG_CREATE_JOB2
 };
 
 stock bool:ShowDialog(playerid, dialogid, const string[] = "") {
@@ -32,7 +35,9 @@ stock bool:ShowDialog(playerid, dialogid, const string[] = "") {
         {
             Dialog_Show(playerid, ShowRegisterDialog, DIALOG_STYLE_PASSWORD, 
                 COLOR_YELLOW "Set Password", 
-                "Please set a strong password to proceed:", 
+                "Password must be at least 8 characters long and contain a mix of\
+                \nletters(at least one uppercase), numbers, and special characters.\
+                \nPlease enter a stronger password:", 
                 "Continue", "Cancel");
             return true;
         }
@@ -172,6 +177,20 @@ stock bool:ShowDialog(playerid, dialogid, const string[] = "") {
             Dialog_Show(playerid, ShowDialogAdminTeleportBusiness, DIALOG_STYLE_INPUT, 
                 COLOR_YELLOW "Admin Panel", "Enter the business ID to teleport to:", 
                 "Select", "Cancel");
+            return true;
+        }
+        // Functions
+        case DIALOG_CREATE_JOB1:
+        {
+            Dialog_Show(playerid, ShowDialogCreateJob1, DIALOG_STYLE_INPUT, COLOR_YELLOW\
+            "Create Job", "Provide a Descriptive Job Name:", "Continue", "Cancel");
+            return true;
+        }
+        case DIALOG_CREATE_JOB2:
+        {
+            Dialog_Show(playerid, ShowDialogCreateJob2, DIALOG_STYLE_INPUT, COLOR_YELLOW\
+            "Create Job", "Provide the Job Data\
+            \n(Type[1-2], Skin, Salary, Ownerid[-1 for govt.]):", "Continue", "Cancel");
             return true;
         }
         default:

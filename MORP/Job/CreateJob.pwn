@@ -1,5 +1,7 @@
 /* Create Job */
 
+new TempJobName[64];
+
 stock bool:DoesJobExistByID(jobid)
 {
     if(jobid < 0 || jobid >= MAX_JOBS) return false;
@@ -7,7 +9,7 @@ stock bool:DoesJobExistByID(jobid)
 }
 stock bool:DoesJobExist(const Name[])
 {
-    mysql_format(db, DB_query, sizeof(DB_query), "SELECT COUNT(*) FROM Jobs WHERE JobName = '%e'", Name);
+    mysql_format(db, DB_query, sizeof(DB_query), "SELECT * FROM Jobs WHERE JobName = '%e'", Name);
     new Cache:result = mysql_query(db, DB_query), rows;
     cache_get_row_count(rows);
     if(rows)
@@ -25,12 +27,12 @@ stock bool:CreateJob(playerid, const Name[] = "NULL", Type, skin, Salary, Player
     if(IsPlayerConnected(PlayerID))
     {
         OwnerID = gPlayerData[PlayerID][pID];
-        strcat(Owner, gPlayerData[PlayerID][pName]);
+        strcpy(Owner, gPlayerData[PlayerID][pName]);
     }
     else
     {
         OwnerID = 0;
-        strcat(Owner, "Govt.");
+        strcpy(Owner, "Govt.");
     }
     if(strcmp(Name, "NULL", true) == 0) return SEM(playerid, "Oops! You forgot to enter a job name.");
     if(DoesJobExist(Name)) return SEM(playerid, "Oops! This job already exists.");
@@ -44,12 +46,12 @@ stock bool:CreateJob(playerid, const Name[] = "NULL", Type, skin, Salary, Player
         if(!gJobData[i][jExists])
         {
             gJobData[i][jExists] = true;
-            strcat(gJobData[i][jName], Name);
+            strcpy(gJobData[i][jName], Name);
             gJobData[i][jType] = Type;
             gJobData[i][jSkin] = skin;
             gJobData[i][jSalary] = Salary;
             gJobData[i][jOwnerID] = OwnerID;
-            strcat(gJobData[i][jOwner], Owner);
+            strcpy(gJobData[i][jOwner], Owner);
             gJobData[i][jPos][0] = PosX;
             gJobData[i][jPos][1] = PosY;
             gJobData[i][jPos][2] = PosZ;
@@ -70,8 +72,41 @@ CB: OnJobCreated(playerid, jobid)
     gJobData[jobid][jID] = cache_insert_id();
     new string[128];
     format(string, sizeof(string), "Job created successfully. ID: %d", jobid);
-    SEM(playerid, string);
+    SSM(playerid, string);
     ReloadJob(jobid);
+    return 1;
+}
+
+Dialog:ShowDialogCreateJob1(playerid, response, listitem, inputtext[])
+{
+    if(response)
+    {
+        if(!strlen(inputtext)){
+            ShowDialog(playerid, DIALOG_CREATE_JOB1);
+            SEM(playerid, "Oops! You forgot to enter a job name.");
+            return 1;
+        }
+        strcpy(TempJobName, inputtext);
+        ShowDialog(playerid, DIALOG_CREATE_JOB2);
+        return 1;
+    }
+    return 1;
+}
+
+Dialog:ShowDialogCreateJob2(playerid, response, listitem, inputtext[])
+{
+    new Type, skin, Salary, PlayerID;
+    if(response)
+    {
+        if(sscanf(inputtext, "p<,>iiii", Type, skin, Salary, PlayerID))
+        {
+            ShowDialog(playerid, DIALOG_CREATE_JOB2);
+            SEM(playerid, "Usage: /createjob");
+            return 1;
+        }
+        CreateJob(playerid, TempJobName, Type, skin, Salary, PlayerID);
+        return 1;
+    }
     return 1;
 }
 
@@ -87,7 +122,7 @@ stock bool:EditJob(playerid, jobid, Type, skin, Salary)
     gJobData[jobid][jSalary] = Salary;
     mysql_format(db, DB_query, sizeof(DB_query), "UPDATE Jobs SET JobType = %d, JobSkin = %d, JobSalary = %d WHERE JobName = '%e'", Type, skin, Salary, gJobData[jobid][jName]);
     mysql_tquery(db, DB_query);
-    SEM(playerid, "Job edited successfully.");
+    SSM(playerid, "Job edited successfully.");
     return true;
 }
 
@@ -96,6 +131,12 @@ stock bool:DeleteJob(playerid, jobid)
     if(!bool:DoesJobExistByID(jobid)) return SEM(playerid, "Oops! This job does not exist.");
     
     gJobData[jobid][jExists] = false;
+    if(IsValidDynamicPickup(gJobData[jobid][jPickup])){
+        DestroyDynamicPickup(gJobData[jobid][jPickup]);
+    }
+    if(IsValidDynamic3DTextLabel(gJobData[jobid][jLabel])){
+        DestroyDynamic3DTextLabel(gJobData[jobid][jLabel]);
+    }
     mysql_format(db, DB_query, sizeof(DB_query), "DELETE FROM Jobs WHERE JobName = '%e'", gJobData[jobid][jName]);
     mysql_tquery(db, DB_query);
     SSM(playerid, "Job deleted successfully.");
@@ -105,12 +146,7 @@ stock bool:DeleteJob(playerid, jobid)
 
 CMD:createjob(playerid, const params[])
 {
-    new Name[64], Type, skin, Salary, PlayerID;
-    if(sscanf(params, "s[64]iiii", Name, Type, skin, Salary))
-    {
-        return SEM(playerid, "Usage: /createjob [Name] [Type] [Skin] [Salary] [PlayerID(-1 for govt. jobs)]");
-    }
-    CreateJob(playerid, Name, Type, skin, Salary, PlayerID);
+    ShowDialog(playerid, DIALOG_CREATE_JOB1);
     return 1;
 }
 

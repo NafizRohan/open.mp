@@ -64,7 +64,6 @@ public OnGameModeInit()
         printf("MapAndreas initialization failed!");
         return 0;
     }
-    
     return 1;
 }
 
