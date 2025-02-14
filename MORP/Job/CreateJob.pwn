@@ -145,8 +145,6 @@ CMD:deletejob(playerid, const params[])
     return 1;
 }
 
-
-
 CMD:editjob(playerid, const params[])
 {
     new jobid;
