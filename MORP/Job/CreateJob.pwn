@@ -110,22 +110,6 @@ Dialog:ShowDialogCreateJob2(playerid, response, listitem, inputtext[])
     return 1;
 }
 
-stock bool:EditJob(playerid, jobid, Type, skin, Salary)
-{
-    if(!DoesJobExistByID(jobid)) return SEM(playerid, "Oops! This job does not exist.");
-    if(Type < 1 || Type > 2) return SEM(playerid, "Oops! Invalid job type.");
-    if(skin < 0 || skin > 312) return SEM(playerid, "Oops! Invalid skin ID.");
-    if(Salary < 100) return SEM(playerid, "Oops! Invalid salary.");
-
-    gJobData[jobid][jType] = Type;
-    gJobData[jobid][jSkin] = skin;
-    gJobData[jobid][jSalary] = Salary;
-    mysql_format(db, DB_query, sizeof(DB_query), "UPDATE Jobs SET JobType = %d, JobSkin = %d, JobSalary = %d WHERE JobName = '%e'", Type, skin, Salary, gJobData[jobid][jName]);
-    mysql_tquery(db, DB_query);
-    SSM(playerid, "Job edited successfully.");
-    return true;
-}
-
 stock bool:DeleteJob(playerid, jobid)
 {
     if(!bool:DoesJobExistByID(jobid)) return SEM(playerid, "Oops! This job does not exist.");
@@ -165,12 +149,77 @@ CMD:deletejob(playerid, const params[])
 
 CMD:editjob(playerid, const params[])
 {
-    new jobid, Type, skin, Salary;
-    if(sscanf(params, "iiii", jobid, Type, skin, Salary))
+    new jobid;
+    new type[24], value[24];
+    
+    if(sscanf(params, "is[24]i", jobid, type, value))
     {
-        return SEM(playerid, "Usage: /editjob [jobid] [Type] [Skin] [Salary]");
+        SEM(playerid, "Usage: /editjob [jobid] [option] [value]");
+        return SSM(playerid, "options: type, skin, salary, owner");
     }
-    EditJob(playerid, jobid, Type, skin, Salary);
+    if(!DoesJobExistByID(jobid)) return SEM(playerid, "Oops! This job does not exist.");
+
+    if(!strcmp(type, "type", true))
+    {
+        new Type;
+        if(sscanf(value, "i", Type))
+        {
+            return SEM(playerid, "Usage: /editjob [jobid] [type] [1/2]");
+        }
+        if(Type < 1 || Type > 2) return SEM(playerid, "Oops! Invalid job type.");
+        gJobData[jobid][jType] = Type;
+    }
+    else if(!strcmp(type, "skin", true))
+    {
+        new skin;
+        if(sscanf(value, "i", skin))
+        {
+            return SEM(playerid, "Usage: /editjob [jobid] [skin] [skinid]");
+        }
+        if(skin < 0 || skin > 312) return SEM(playerid, "Oops! Invalid skin ID.");
+        gJobData[jobid][jSkin] = skin;
+    }
+    else if(!strcmp(type, "salary", true))
+    {
+        new Salary;
+        if(sscanf(value, "i", Salary))
+        {
+            return SEM(playerid, "Usage: /editjob [jobid] [salary] [amount]");
+        }
+        if(Salary < 100) return SEM(playerid, "Oops! Invalid salary.");
+        gJobData[jobid][jSalary] = Salary;
+    }
+    else if(!strcmp(type, "owner", true))
+    {
+        new OwnerID;
+        if(sscanf(value, "i", OwnerID))
+        {
+            return SEM(playerid, "Usage: /editjob [jobid] [owner] [playerid]");
+        }
+        if(IsPlayerConnected(OwnerID))
+        {
+            gJobData[jobid][jOwnerID] = gPlayerData[OwnerID][pID];
+            strcpy(gJobData[jobid][jOwner], gPlayerData[OwnerID][pName]);
+        }
+        else if(OwnerID == -1)
+        {
+            gJobData[jobid][jOwnerID] = 0;
+            strcpy(gJobData[jobid][jOwner], "Govt.");
+        }
+        else{
+            SEM(playerid, "Oops! Player is not connected.");
+            return 1;
+        }
+    }
+    else
+    {
+        return SEM(playerid, "Oops! Invalid type specified.");
+    }
+
+    mysql_format(db, DB_query, sizeof(DB_query), "UPDATE Jobs SET JobType = '%d', JobSkin = '%d', JobSalary = '%d', JobOwner = '%e', JobOwnerID = '%d' WHERE JobID = '%d'", gJobData[jobid][jType], gJobData[jobid][jSkin], gJobData[jobid][jSalary], gJobData[jobid][jOwner], gJobData[jobid][jOwnerID] ,jobid);
+    mysql_tquery(db, DB_query);
+    SSM(playerid, "Job updated successfully.");
+    ReloadJob(jobid);
     return 1;
 }
 
