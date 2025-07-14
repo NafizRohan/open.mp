@@ -1,3 +1,7 @@
+#if !defined(MORP_CORE_STRINGS_PWN)
+    #endinput
+#endif
+#define MORP_CORE_STRINGS_PWN
 new logstr[128];
 
 stock bool:findsymbol(const string[]){

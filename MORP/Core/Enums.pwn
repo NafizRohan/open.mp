@@ -1,3 +1,8 @@
+#if !defined(MORP_CORE_ENUMS_PWN)
+    #endinput
+#endif
+#define MORP_CORE_ENUMS_PWNenum 
+
 enum BusinessData{
     bID,
     bExists,

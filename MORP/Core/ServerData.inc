@@ -1,3 +1,7 @@
+#if !defined(MORP_CORE_SERVERDATA_INC)
+    #endinput
+#endif
+#define MORP_CORE_SERVERDATA_INC
 #include <YSI_Coding\y_hooks>
 new SERVER_NAME[32];
 new SERVER_TAG[8];
