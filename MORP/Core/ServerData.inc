@@ -12,12 +12,12 @@ new MySQL:db;
 new db_host[64], db_user[64], db_password[64], db_name[64];
 new DB_query[2048];
 
-new mxMoney;
-new mxDiamond;
-new mxGold;
-new currMoney;
-new currDiamond;
-new currGold;
+new MaxWealth;
+new MaxDiamond;
+new MaxGold;
+new TotalWealth;
+new TotalDiamond;
+new TotalGold;
 stock LoadServerData(){
     //Server Info
     format(SERVER_NAME, sizeof(SERVER_NAME), "%s", dini_Get("server.properties.cfg", "name"));
@@ -29,12 +29,12 @@ stock LoadServerData(){
     format(db_password, sizeof(db_password), "%s", dini_Get("server.properties.cfg", "password"));
     format(db_name, sizeof(db_name), "%s", dini_Get("server.properties.cfg", "database"));
     //City Info
-    mxMoney = dini_Int("server.properties.cfg", "mxMoney");
-    mxDiamond = dini_Int("server.properties.cfg", "mxDiamond");
-    mxGold = dini_Int("server.properties.cfg", "mxGold");
-    currMoney = dini_Int("server.properties.cfg", "currMoney");
-    currDiamond = dini_Int("server.properties.cfg", "currDiamond");
-    currGold = dini_Int("server.properties.cfg", "currGold");
+    MaxWealth = dini_Int("server.properties.cfg", "MaxWealth");
+    MaxDiamond = dini_Int("server.properties.cfg", "MaxDiamond");
+    MaxGold = dini_Int("server.properties.cfg", "MaxGold");
+    TotalWealth = dini_Int("server.properties.cfg", "TotalWealth");
+    TotalDiamond = dini_Int("server.properties.cfg", "TotalDiamond");
+    TotalGold = dini_Int("server.properties.cfg", "TotalGold");
 }
 
 stock SaveServerData(){
@@ -48,12 +48,12 @@ stock SaveServerData(){
     dini_Set("server.properties.cfg", "password", db_password);
     dini_Set("server.properties.cfg", "database", db_name);
     //City Info
-    dini_IntSet("server.properties.cfg", "mxMoney", mxMoney);
-    dini_IntSet("server.properties.cfg", "mxDiamond", mxDiamond);
-    dini_IntSet("server.properties.cfg", "mxGold", mxGold);
-    dini_IntSet("server.properties.cfg", "currMoney", currMoney);
-    dini_IntSet("server.properties.cfg", "currDiamond", currDiamond);
-    dini_IntSet("server.properties.cfg", "currGold", currGold);
+    dini_IntSet("server.properties.cfg", "MaxWealth", MaxWealth);
+    dini_IntSet("server.properties.cfg", "MaxDiamond", MaxDiamond);
+    dini_IntSet("server.properties.cfg", "MaxGold", MaxGold);
+    dini_IntSet("server.properties.cfg", "TotalWealth", TotalWealth);
+    dini_IntSet("server.properties.cfg", "TotalDiamond", TotalDiamond);
+    dini_IntSet("server.properties.cfg", "TotalGold", TotalGold);
 }
 
 hook OnGameModeInit()
@@ -80,15 +80,15 @@ hook OnGameModeInit()
     
     printf("\n");
     printf("Server Limits:");
-    printf("  - Maximum Money Allowed: %i", mxMoney);
-    printf("  - Maximum Diamonds Allowed: %i", mxDiamond);
-    printf("  - Maximum Gold Allowed: %i", mxGold);
+    printf("  - Maximum Money Allowed: %i", MaxWealth);
+    printf("  - Maximum Diamonds Allowed: %i", MaxDiamond);
+    printf("  - Maximum Gold Allowed: %i", MaxGold);
     
     printf("\n");
     printf("Current Total Holdings (All Players):");
-    printf("  - Total Money: %i", currMoney);
-    printf("  - Total Diamonds: %i", currDiamond);
-    printf("  - Total Gold: %i", currGold);
+    printf("  - Total Money: %i", TotalWealth);
+    printf("  - Total Diamonds: %i", TotalDiamond);
+    printf("  - Total Gold: %i", TotalGold);
     printf("\n\n");
 
     printf("Establishing connection to the database server...");
