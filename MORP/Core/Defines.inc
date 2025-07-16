@@ -1,7 +1,7 @@
-#if !defined(MORP_CORE_DEFINES_INC)
+#if defined _MORP_CORE_DEFINES_INCLUDED
     #endinput
 #endif
-#define MORP_CORE_DEFINES_INC
+#define _MORP_CORE_DEFINES_INCLUDED
 
 
 #define SERVER_COLOR        0xFF0ABAB5

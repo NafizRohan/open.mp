@@ -85,10 +85,10 @@ stock bool:SetPlayerSkinEx(playerid, skinid) {
 	return true;
 }
 
-stock bool:IsBusiness(bizid){
-	if(gBusinessData[bizid][bID] != 0) return true;
-	return false;
-}
+// stock bool:IsBusiness(bizid){
+// 	if(gBusinessData[bizid][bID] != 0) return true;
+// 	return false;
+// }
 
 stock bool:SendMessage(playerid, color, const text[], {Float,_}:...)
 {

@@ -119,11 +119,11 @@ Dialog:ShowDialogAdminTeleportPlayer(playerid, response, listitem, inputtext[])
 
 Dialog:ShowDialogAdminTeleportBusiness(playerid, response, listitem, inputtext[])
 {
-    new bizid;
+//    new bizid;
     if(!response) return true;
     if(isnull(inputtext)) return ShowDialog(playerid, DIALOG_ADMIN_TELEPORT_BUSINESS);
-    bizid = strval(inputtext);
-    if(!IsBusiness(bizid)) return ShowDialog(playerid, DIALOG_ADMIN_TELEPORT_BUSINESS);
+//    bizid = strval(inputtext);
+//    if(!IsBusiness(bizid)) return ShowDialog(playerid, DIALOG_ADMIN_TELEPORT_BUSINESS);
     //TeleportToCoords(playerid, gBusinessData[bizid][bPos][0], gBusinessData[bizid][bPos][1], gBusinessData[bizid][bPos][2]);
     return true;
 }

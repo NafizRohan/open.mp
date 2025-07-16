@@ -32,22 +32,22 @@
 */
 
 // Core
-#include <Core\Defines>
-#include <Core\Enums>
-#include <Core\ServerData>
-#include <Core\Strings>
+#include <Core/Defines>
+#include <Core/Enums>
+#include <Core/ServerData>
+#include <Core/Strings>
 #include <functions>
 #include <callbacks>
 
 // Player
-#include <Player\Login>
-#include <Player\SavePlayerData>
+#include <Player/Login>
+#include <Player/SavePlayerData>
 // Admin
-#include <Player\Admin\AdminInit>
-#include <Player\Admin\Dialog>
+#include <Player/Admin/AdminInit>
+#include <Player/Admin/Dialog>
 // Job
-#include <Job\LoadJob>
-#include <Job\CreateJob>
+// #include <Job/LoadJob>
+// #include <Job/CreateJob>
 
 main() {}
 

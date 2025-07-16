@@ -1,18 +1,19 @@
-#if !defined(MORP_CORE_ENUMS_PWN)
+#if defined _MORP_CORE_ENUMS_INCLUDED
     #endinput
 #endif
-#define MORP_CORE_ENUMS_PWNenum 
+#define _MORP_CORE_ENUMS_INCLUDED
 
-enum BusinessData{
-    bID,
-    bExists,
-    bName[64],
-    bOwnerID,
-    bOwner[64],
-    bType,
-    bMoney
-};
-new gBusinessData[MAX_BUSINESS][BusinessData];
+
+// enum BusinessData{
+//     bID,
+//     bExists,
+//     bName[64],
+//     bOwnerID,
+//     bOwner[64],
+//     bType,
+//     bMoney
+// };
+// new gBusinessData[MAX_BUSINESS][BusinessData];
 
 enum MasterAccount{
     msID,
@@ -45,17 +46,17 @@ enum PlayerData{
 };
 new gPlayerData[MAX_PLAYERS][PlayerData];
 
-enum JobData{
-    jID,
-    jName[64],
-    jType,
-    jSkin,
-    jSalary,
-    jOwnerID,
-    jOwner[64],
-    Float:jPos[3],
-    STREAMER_TAG_PICKUP:jPickup,
-    STREAMER_TAG_3D_TEXT_LABEL:jLabel,
-    bool:jExists
-};
-new gJobData[MAX_JOBS][JobData];
+// enum JobData{
+//     jID,
+//     jName[64],
+//     jType,
+//     jSkin,
+//     jSalary,
+//     jOwnerID,
+//     jOwner[64],
+//     Float:jPos[3],
+//     STREAMER_TAG_PICKUP:jPickup,
+//     STREAMER_TAG_3D_TEXT_LABEL:jLabel,
+//     bool:jExists
+// };
+// new gJobData[MAX_JOBS][JobData];
