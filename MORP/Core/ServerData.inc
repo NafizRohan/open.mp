@@ -1,3 +1,4 @@
+#include <YSI_Coding\y_hooks>
 #if defined _MORP_CORE_SERVERDATA_INCLUDED
     #endinput
 #endif
@@ -19,6 +20,7 @@ new TotalWealth;
 new TotalDiamond;
 new TotalGold;
 stock LoadServerData(){
+
     //Server Info
     format(SERVER_NAME, sizeof(SERVER_NAME), "%s", dini_Get("server.properties.cfg", "name"));
     format(SERVER_TAG, sizeof(SERVER_TAG), "%s", dini_Get("server.properties.cfg", "tag"));
@@ -58,8 +60,28 @@ stock SaveServerData(){
 
 hook OnGameModeInit()
 {
-    printf("Initializing server configuration: server.properties.cfg...");
-    LoadServerData();
+    print("MORP Core(ServerData) Initialized.");
+    printf("Loading server configuration: server.properties.cfg...");
+    if(!dini_Exists("server.properties.cfg")){
+        printf("File not found. Creating default server.properties.cfg...");
+        dini_Create("server.properties.cfg");
+        dini_Set("server.properties.cfg", "name", "MORP Server");
+        dini_Set("server.properties.cfg", "tag", "MORP");
+        dini_Set("server.properties.cfg", "dev", "Nafiz Rohan");
+        dini_Set("server.properties.cfg", "hostname", "localhost");
+        dini_Set("server.properties.cfg", "user", "root");
+        dini_Set("server.properties.cfg", "password", "");
+        dini_Set("server.properties.cfg", "database", "morp_db");
+        dini_IntSet("server.properties.cfg", "MaxWealth", 1000000);
+        dini_IntSet("server.properties.cfg", "MaxDiamond", 10000);
+        dini_IntSet("server.properties.cfg", "MaxGold", 10000);
+        dini_IntSet("server.properties.cfg", "TotalWealth", 0);
+        dini_IntSet("server.properties.cfg", "TotalDiamond", 0);
+        dini_IntSet("server.properties.cfg", "TotalGold", 0);
+    }
+    else
+        LoadServerData();
+    
 
     printf("\n\n");
     printf("  __  __      _                ____       _       _         _____       _      _____  _             ");
@@ -111,4 +133,6 @@ hook OnGameModeExit(){
     SaveServerData();
     dini_Timeout("server.properties.cfg");
     mysql_close(db);
+    print("MORP Core(ServerData) Unloaded.");
+    return true;
 }

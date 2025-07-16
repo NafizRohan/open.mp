@@ -1,3 +1,4 @@
+#include <YSI_Coding\y_hooks>
 #if defined _MORP_CORE_ENUMS_INCLUDED
     #endinput
 #endif
@@ -60,3 +61,15 @@ new gPlayerData[MAX_PLAYERS][PlayerData];
 //     bool:jExists
 // };
 // new gJobData[MAX_JOBS][JobData];
+
+
+hook OnGameModeInit()
+{
+    print("MORP Core(Enums) Initialized.");
+    return true;
+}
+hook OnGameModeExit()
+{
+    print("MORP Core(Enums) Unloaded.");
+    return true;
+}

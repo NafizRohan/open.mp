@@ -36,8 +36,8 @@
 	const __MAX_PLAYERS                        = MAX_PLAYERS;
 	#define __MAX_PLAYERS
 #else
-	const MAX_PLAYERS                          = 1000;
-	#define MAX_PLAYERS                        1000
+	const MAX_PLAYERS                          = 100;
+	#define MAX_PLAYERS                        100
 #endif
 
 /**

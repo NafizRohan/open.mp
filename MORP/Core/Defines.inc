@@ -1,3 +1,4 @@
+#include <YSI_Coding\y_hooks>
 #if defined _MORP_CORE_DEFINES_INCLUDED
     #endinput
 #endif
@@ -32,3 +33,14 @@ forward %0(%1);public %0(%1)
 #define MAX_GATES               100
 #define MAX_ADMINS              10
 #define MAX_JOBS                10
+
+hook OnGameModeInit()
+{
+    print("MORP Core(Defines) Initialized.");
+    return true;
+}
+hook OnGameModeExit()
+{
+    print("MORP Core(Defines) Unloaded.");
+    return true;
+}

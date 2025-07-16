@@ -11,8 +11,7 @@
 */
 
 #include <open.mp>
-#undef MAX_PLAYERS
-#define MAX_PLAYERS     100
+#include <easyDialog>
 #include <a_mysql>
 #include <bcrypt>
 #include <mapandreas>
@@ -20,7 +19,6 @@
 #include <sscanf2>
 #include <streamer>
 #include <dini2>
-#include <easyDialog>
 #include <YSI_Data\y_foreach>
 
 /*
