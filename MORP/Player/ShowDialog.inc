@@ -1,3 +1,7 @@
+#if defined _MORP_PLAYER_SHOWDIALOG_INCLUDED
+    #endinput
+#endif
+#define _MORP_PLAYER_SHOWDIALOG_INCLUDED
 enum {
     DIALOG_REGISTER,
     DIALOG_PASSWORD,
@@ -177,20 +181,6 @@ stock bool:ShowDialog(playerid, dialogid, const string[] = "") {
             Dialog_Show(playerid, ShowDialogAdminTeleportBusiness, DIALOG_STYLE_INPUT, 
                 COLOR_YELLOW "Admin Panel", "Enter the business ID to teleport to:", 
                 "Select", "Cancel");
-            return true;
-        }
-        // Functions
-        case DIALOG_CREATE_JOB1:
-        {
-            Dialog_Show(playerid, ShowDialogCreateJob1, DIALOG_STYLE_INPUT, COLOR_YELLOW\
-            "Create Job", "Provide a Descriptive Job Name:", "Continue", "Cancel");
-            return true;
-        }
-        case DIALOG_CREATE_JOB2:
-        {
-            Dialog_Show(playerid, ShowDialogCreateJob2, DIALOG_STYLE_INPUT, COLOR_YELLOW\
-            "Create Job", "Provide the Job Data\
-            \n(Type[1-2], Skin, Salary, Ownerid[-1 for govt.]):", "Continue", "Cancel");
             return true;
         }
         default:

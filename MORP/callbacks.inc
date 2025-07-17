@@ -1,3 +1,7 @@
+#if defined _MORP_CALLBACKS_INCLUDED
+	#endinput
+#endif
+#define _MORP_CALLBACKS_INCLUDED
 CB:KickPlayer(playerid) Kick(playerid);
 
 CB:Freeze(playerid)

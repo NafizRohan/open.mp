@@ -1,3 +1,7 @@
+#if defined _MORP_PLAYER_LOGIN_INCLUDED
+    #endinput
+#endif
+#define _MORP_PLAYER_LOGIN_INCLUDED
 #include <YSI_Coding\y_hooks>
 #include <Player\ShowDialog>
 

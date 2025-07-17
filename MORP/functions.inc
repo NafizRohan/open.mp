@@ -1,3 +1,7 @@
+#if defined _MORP_FUNCTIONS_INCLUDED
+	#endinput
+#endif
+#define _MORP_FUNCTIONS_INCLUDED
 stock bool:IsPlayerServerAdmin(playerid){
     if(gPlayerData[playerid][pAdmin]) return true;
     return false;
@@ -85,11 +89,6 @@ stock bool:SetPlayerSkinEx(playerid, skinid) {
 	return true;
 }
 
-// stock bool:IsBusiness(bizid){
-// 	if(gBusinessData[bizid][bID] != 0) return true;
-// 	return false;
-// }
-
 stock bool:SendMessage(playerid, color, const text[], {Float,_}:...)
 {
 	static
@@ -135,7 +134,6 @@ stock bool:SendErrorMessage(playerid, const message[])
 {
     return SendMessage(playerid, -1, ""RED"Error: "WHITE"%s", message);
 }
-
 stock bool:SendAdminMessage(playerid, const message[])
 {
 	return SendMessage(playerid, -1, ""GREEN"Admin: "WHITE"%s", message);

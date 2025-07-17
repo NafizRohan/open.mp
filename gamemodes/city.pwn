@@ -43,22 +43,12 @@
 // Admin
 #include <Player/Admin/AdminInit>
 #include <Player/Admin/Dialog>
-// Job
-// #include <Job/LoadJob>
-// #include <Job/CreateJob>
-
 main() {}
 
 public OnGameModeInit()
 {
-    printf(" ");
-    printf("  -------------------------------");
-    printf("  |  Loaded all Gamemode files  |");
-    printf("  -------------------------------");
-    printf(" ");
-    
-    if (!MapAndreas_Init(MAP_ANDREAS_MODE_FULL, "scriptfiles/SAfull.hmap"))
-    {
+
+    if (!MapAndreas_Init(MAP_ANDREAS_MODE_FULL, "scriptfiles/SAfull.hmap")) {
         printf("MapAndreas initialization failed!");
         return 0;
     }

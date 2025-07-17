@@ -81,7 +81,6 @@ Dialog:ShowDialogAdminTeleport(playerid, response, listitem, inputtext[])
         }
         case 2:
         {
-            ShowDialog(playerid, DIALOG_ADMIN_TELEPORT_BUSINESS);
             return true;
         }
         case 3:
@@ -117,39 +116,6 @@ Dialog:ShowDialogAdminTeleportPlayer(playerid, response, listitem, inputtext[])
     return true;
 }
 
-Dialog:ShowDialogAdminTeleportBusiness(playerid, response, listitem, inputtext[])
-{
-//    new bizid;
-    if(!response) return true;
-    if(isnull(inputtext)) return ShowDialog(playerid, DIALOG_ADMIN_TELEPORT_BUSINESS);
-//    bizid = strval(inputtext);
-//    if(!IsBusiness(bizid)) return ShowDialog(playerid, DIALOG_ADMIN_TELEPORT_BUSINESS);
-    //TeleportToCoords(playerid, gBusinessData[bizid][bPos][0], gBusinessData[bizid][bPos][1], gBusinessData[bizid][bPos][2]);
-    return true;
-}
-
-Dialog:ShowDialogAdminBusiness(playerid, response, listitem, inputtext[])
-{
-    if(!response) return ShowDialog(playerid, DIALOG_ADMIN_PANEL);
-    switch (listitem)
-    {
-        case 0:
-        {
-            return true;
-        }
-        case 1:
-        {
-            return true;
-        }
-        case 2:
-        {
-            return true;
-        }
-        default: return true;
-        
-    }
-    return true;
-}
 
 Dialog:ShowDialogAdminPlayers(playerid, response, listitem, inputtext[])
 {
