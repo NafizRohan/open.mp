@@ -1,3 +1,16 @@
+CREATE TABLE IF NOT EXISTS ServerConfig (
+  `Name` VARCHAR(64) NOT NULL,
+  `Tag` VARCHAR(16) NOT NULL,
+  `Developer` VARCHAR(64) NOT NULL,
+  `MaxWealth` INT DEFAULT 0,
+  `MaxGold` INT DEFAULT 0,
+  `MaxDiamond` INT DEFAULT 0,
+  `TotalWealth` INT DEFAULT 0,
+  `TotalGold` INT DEFAULT 0,
+  `TotalDiamond` INT DEFAULT 0
+);
+
+
 CREATE TABLE IF NOT EXISTS MasterData (
   `MasterID` INT AUTO_INCREMENT PRIMARY KEY,
   `Username` VARCHAR(50) NOT NULL,
@@ -25,29 +38,17 @@ CREATE TABLE IF NOT EXISTS PlayerData (
   `PosY` FLOAT DEFAULT 0.0,
   `PosZ` FLOAT DEFAULT 0.0,
   `PosA` FLOAT DEFAULT 0.0,
+  `Admin` INT(1) DEFAULT 0,
+  `AdminLevel` INT(1) DEFAULT 0,
+  `AdminName` VARCHAR(24) DEFAULT NULL,
+  `Banned` INT(1) DEFAULT 0,
+  `BanReason` VARCHAR(255) DEFAULT NULL,
+  `LastLogin` INT DEFAULT 0,
+  `LastLogout` INT DEFAULT 0,
+  `LastIP` VARCHAR(15) DEFAULT NULL,
+  `LastDevice` INT DEFAULT 0,
+
   FOREIGN KEY (`MasterID`) REFERENCES MasterData(`MasterID`) ON DELETE CASCADE
 );
 
--- Create table TrustedDevices
-CREATE TABLE IF NOT EXISTS TrustedDevices (
-  `TrustedID` INT AUTO_INCREMENT PRIMARY KEY,
-  `MasterID` INT NOT NULL,
-  `DeviceHash` VARCHAR(128) NOT NULL,
-  `LastUsedIP` VARCHAR(45) NOT NULL,
-  `AddedTimestamp` DATETIME DEFAULT CURRENT_TIMESTAMP,
-  FOREIGN KEY (`MasterID`) REFERENCES MasterData(`MasterID`) ON DELETE CASCADE
-);
 
--- Create Table Job
-CREATE TABLE IF NOT EXISTS Jobs (
-  `JobID` INT AUTO_INCREMENT PRIMARY KEY,
-  `JobName` VARCHAR(64) NOT NULL,
-  `JobOwner` VARCHAR(24) NOT NULL,
-  `JobOwnerID` INT DEFAULT 0,
-  `JobType` INT DEFAULT 0,
-  `JobSalary` INT DEFAULT 0,
-  `JobPosX` FLOAT DEFAULT 0.0,
-  `JobPosY` FLOAT DEFAULT 0.0,
-  `JobPosZ` FLOAT DEFAULT 0.0,
-  `JobSkin` INT DEFAULT 0
-);

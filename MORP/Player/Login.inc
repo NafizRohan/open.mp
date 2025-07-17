@@ -143,19 +143,19 @@ CB:LoadPlayerData(playerid)
         new health, armor;
         cache_get_value_name_int(0, "PlayerID", gPlayerData[playerid][pID]);
         cache_get_value_name(0, "Name", gPlayerData[playerid][pName], MAX_PLAYER_NAME);
-        cache_get_value_int(0, "Registered", gPlayerData[playerid][pRegistered]);
+        cache_get_value_name_int(0, "Registered", gPlayerData[playerid][pRegistered]);
 
-        cache_get_value_int(0, "Skin", gPlayerData[playerid][pSkin]);
-        cache_get_value_int(0, "Health", health);
-        cache_get_value_int(0, "Armor", armor);
-        cache_get_value_int(0, "Thirst", gPlayerData[playerid][pThirst]);
-        cache_get_value_int(0, "Hunger", gPlayerData[playerid][pHunger]);
-        cache_get_value_int(0, "Code", gPlayerData[playerid][pCode]);
+        cache_get_value_name_int(0, "Skin", gPlayerData[playerid][pSkin]);
+        cache_get_value_name_int(0, "Health", health);
+        cache_get_value_name_int(0, "Armor", armor);
+        cache_get_value_name_int(0, "Thirst", gPlayerData[playerid][pThirst]);
+        cache_get_value_name_int(0, "Hunger", gPlayerData[playerid][pHunger]);
+        cache_get_value_name_int(0, "Code", gPlayerData[playerid][pCode]);
 
-        cache_get_value_float(0, "PosX", gPlayerData[playerid][pPos][0]);
-        cache_get_value_float(0, "PosY", gPlayerData[playerid][pPos][1]);
-        cache_get_value_float(0, "PosZ", gPlayerData[playerid][pPos][2]);
-        cache_get_value_float(0, "PosA", gPlayerData[playerid][pPos][3]);
+        cache_get_value_name_float(0, "PosX", gPlayerData[playerid][pPos][0]);
+        cache_get_value_name_float(0, "PosY", gPlayerData[playerid][pPos][1]);
+        cache_get_value_name_float(0, "PosZ", gPlayerData[playerid][pPos][2]);
+        cache_get_value_name_float(0, "PosA", gPlayerData[playerid][pPos][3]);
 
         if(gPlayerData[playerid][pRegistered]){
             gPlayerData[playerid][pHealth] = float(health);

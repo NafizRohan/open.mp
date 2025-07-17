@@ -22,14 +22,24 @@ new TotalGold;
 stock LoadServerData(){
 
     //Server Info
-    format(SERVER_NAME, sizeof(SERVER_NAME), "%s", dini_Get("server.properties.cfg", "name"));
-    format(SERVER_TAG, sizeof(SERVER_TAG), "%s", dini_Get("server.properties.cfg", "tag"));
-    format(DEVELOPER, sizeof(DEVELOPER), "%s", dini_Get("server.properties.cfg", "dev"));
-    //Mysql Informations
-    format(db_host, sizeof(db_host), "%s", dini_Get("server.properties.cfg", "hostname"));
-    format(db_user, sizeof(db_user), "%s", dini_Get("server.properties.cfg", "user"));
-    format(db_password, sizeof(db_password), "%s", dini_Get("server.properties.cfg", "password"));
-    format(db_name, sizeof(db_name), "%s", dini_Get("server.properties.cfg", "database"));
+     // Fetch server data from the database table 'ServerConfig' according to city.sql
+    new Cache:result, rows;
+    result = mysql_query(db, "SELECT * FROM ServerConfig LIMIT 1");
+    cache_get_row_count(rows);
+    if(rows > 0)
+    {
+        cache_get_value_name(0, "Name", SERVER_NAME, sizeof(SERVER_NAME));
+        cache_get_value_name(0, "Tag", SERVER_TAG, sizeof(SERVER_TAG));
+        cache_get_value_name(0, "Developer", DEVELOPER, sizeof(DEVELOPER));
+        cache_get_value_name_int(0, "MaxWealth", MaxWealth);
+        cache_get_value_name_int(0, "MaxDiamond", MaxDiamond);
+        cache_get_value_name_int(0, "MaxGold", MaxGold);
+        cache_get_value_name_int(0, "TotalWealth", TotalWealth);
+        cache_get_value_name_int(0, "TotalDiamond", TotalDiamond);
+        cache_get_value_name_int(0, "TotalGold", TotalGold);
+    }
+    cache_delete(result);
+    
     //City Info
     MaxWealth = dini_Int("server.properties.cfg", "MaxWealth");
     MaxDiamond = dini_Int("server.properties.cfg", "MaxDiamond");
@@ -39,48 +49,42 @@ stock LoadServerData(){
     TotalGold = dini_Int("server.properties.cfg", "TotalGold");
 }
 
-stock SaveServerData(){
-    //Server Info
-    dini_Set("server.properties.cfg", "name", SERVER_NAME);
-    dini_Set("server.properties.cfg", "tag", SERVER_TAG);
-    dini_Set("server.properties.cfg", "dev", DEVELOPER);
-    //MySQL Information
-    dini_Set("server.properties.cfg", "hostname", db_host);
-    dini_Set("server.properties.cfg", "user", db_user);
-    dini_Set("server.properties.cfg", "password", db_password);
-    dini_Set("server.properties.cfg", "database", db_name);
-    //City Info
-    dini_IntSet("server.properties.cfg", "MaxWealth", MaxWealth);
-    dini_IntSet("server.properties.cfg", "MaxDiamond", MaxDiamond);
-    dini_IntSet("server.properties.cfg", "MaxGold", MaxGold);
-    dini_IntSet("server.properties.cfg", "TotalWealth", TotalWealth);
-    dini_IntSet("server.properties.cfg", "TotalDiamond", TotalDiamond);
-    dini_IntSet("server.properties.cfg", "TotalGold", TotalGold);
+stock SaveServerData() {
+    // Save to SQL database instead of dini
+    mysql_format(db, DB_query, sizeof(DB_query),
+        "UPDATE `ServerConfig` SET \
+        `Name` = '%e', `Tag` = '%e', `Developer` = '%e', \
+        `MaxWealth` = %d, `MaxDiamond` = %d, `MaxGold` = %d, \
+        `TotalWealth` = %d, `TotalDiamond` = %d, `TotalGold` = %d \
+        LIMIT 1",
+        SERVER_NAME, SERVER_TAG, DEVELOPER,
+        MaxWealth, MaxDiamond, MaxGold,
+        TotalWealth, TotalDiamond, TotalGold
+    );
+    mysql_query(db, DB_query, false); // Use non-blocking query for better performance
 }
 
 hook OnGameModeInit()
 {
     print("MORP Core(ServerData) Initialized.");
-    printf("Loading server configuration: server.properties.cfg...");
-    if(!dini_Exists("server.properties.cfg")){
-        printf("File not found. Creating default server.properties.cfg...");
-        dini_Create("server.properties.cfg");
-        dini_Set("server.properties.cfg", "name", "MORP Server");
-        dini_Set("server.properties.cfg", "tag", "MORP");
-        dini_Set("server.properties.cfg", "dev", "Nafiz Rohan");
-        dini_Set("server.properties.cfg", "hostname", "localhost");
-        dini_Set("server.properties.cfg", "user", "root");
-        dini_Set("server.properties.cfg", "password", "");
-        dini_Set("server.properties.cfg", "database", "morp_db");
-        dini_IntSet("server.properties.cfg", "MaxWealth", 1000000);
-        dini_IntSet("server.properties.cfg", "MaxDiamond", 10000);
-        dini_IntSet("server.properties.cfg", "MaxGold", 10000);
-        dini_IntSet("server.properties.cfg", "TotalWealth", 0);
-        dini_IntSet("server.properties.cfg", "TotalDiamond", 0);
-        dini_IntSet("server.properties.cfg", "TotalGold", 0);
+    //Mysql Informations
+    format(db_host, sizeof(db_host), "%s", dini_Get("db.cfg", "hostname"));
+    format(db_user, sizeof(db_user), "%s", dini_Get("db.cfg", "user"));
+    format(db_password, sizeof(db_password), "%s", dini_Get("db.cfg", "password"));
+    format(db_name, sizeof(db_name), "%s", dini_Get("db.cfg", "database"));
+    // Connect to the database
+    printf("Establishing connection to the database server...");
+    db = mysql_connect(db_host, db_user, db_password, db_name);
+    mysql_log(ERROR | WARNING);
+    
+    if(mysql_errno(db)){
+        printf("Unable to connect to the database server. Please verify the database details in the **scriptfiles/server.properties.cfg** file.");
+        SendRconCommand("exit");
     }
     else
-        LoadServerData();
+        printf("Successfully connected to the database server.\n");
+    // Load server data
+    LoadServerData();
     
 
     printf("\n\n");
@@ -113,16 +117,7 @@ hook OnGameModeInit()
     printf("  - Total Gold: %i", TotalGold);
     printf("\n\n");
 
-    printf("Establishing connection to the database server...");
-    db = mysql_connect(db_host, db_user, db_password, db_name);
-    mysql_log(ERROR | WARNING);
     
-    if(mysql_errno(db)){
-        printf("Unable to connect to the database server. Please verify the database details in the **scriptfiles/server.properties.cfg** file.");
-        SendRconCommand("exit");
-    }
-    else
-        printf("Successfully connected to the database server.\n");
     
     SendRconCommand("name %s", SERVER_NAME);
     SendRconCommand("game.mode %s", SERVER_TAG);
