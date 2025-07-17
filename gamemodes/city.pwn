@@ -6,10 +6,11 @@
  | |\/| |/ _ \ __| '__/ _ \  | |  | | '__| |/ _` | | '_ \  |  _  // _ \| |/ _ \  ___/| |/ _` | | | |
  | |  | |  __/ |_| | | (_) | | |__| | |  | | (_| | | | | | | | \ \ (_) | |  __/ |    | | (_| | |_| |
  |_|  |_|\___|\__|_|  \___/   \____/|_|  |_|\__, |_|_| |_| |_|  \_\___/|_|\___|_|    |_|\__,_|\__, |
-                                             __/ |                                             __/ |
-                                            |___/                                             |___/ 
-*/
+                                                                                               __/ |                                             __/ |
+                                                                                              |___/                                             |___/ 
+        */
 
+// Include core libraries and plugins
 #include <open.mp>
 #include <easyDialog>
 #include <a_mysql>
@@ -22,14 +23,14 @@
 #include <YSI_Data\y_foreach>
 
 /*
-         ___      _
-        / __| ___| |_ _  _ _ __
-        \__ \/ -_)  _| || | '_ \
-        |___/\___|\__|\_,_| .__/
-                          |_|
+                 ___      _
+                / __| ___| |_ _  _ _ __
+                \__ \/ -_)  _| || | '_ \
+                |___/\___|\__|\_,_| .__/
+                                  |_|
 */
 
-// Core
+// Core includes for server functionality
 #include <Core/Defines>
 #include <Core/Enums>
 #include <Core/ServerData>
@@ -37,36 +38,42 @@
 #include <functions>
 #include <callbacks>
 
-// Player
+// Player-related includes
 #include <Player/Login>
 #include <Player/SavePlayerData>
-// Admin
+// Admin-related includes
 #include <Player/Admin/AdminInit>
 #include <Player/Admin/Dialog>
+
+// Main entry point (required by SA-MP)
 main() {}
 
+// Called when the gamemode starts
 public OnGameModeInit()
 {
-
+    // Initialize MapAndreas for map data
     if (!MapAndreas_Init(MAP_ANDREAS_MODE_FULL, "scriptfiles/SAfull.hmap")) {
-        printf("MapAndreas initialization failed!");
-        return 0;
+            printf("MapAndreas initialization failed!");
+            return 0;
     }
     return 1;
 }
 
+// Called when the gamemode ends
 public OnGameModeExit()
 {
     // Perform any necessary cleanup here
     return 1;
 }
 
+// Called when a player requests to select a class
 public OnPlayerRequestClass(playerid, classid)
 {
     // Handle player class selection here
     return 1;
 }
 
+// Called when a player connects to the server
 public OnPlayerConnect(playerid)
 {
     new name[MAX_PLAYER_NAME];
@@ -76,6 +83,7 @@ public OnPlayerConnect(playerid)
     return 1;
 }
 
+// Called when a player disconnects from the server
 public OnPlayerDisconnect(playerid, reason)
 {
     new name[MAX_PLAYER_NAME];
