@@ -4,25 +4,32 @@
 #endif
 #define _MORP_CORE_SERVERDATA_INCLUDED
 #include <YSI_Coding\y_hooks>
-new SERVER_NAME[32];
-new SERVER_TAG[8];
-new DEVELOPER[32];
 
+// Server information variables
+new SERVER_NAME[32];    // Name of the server
+new SERVER_TAG[8];      // Short tag/identifier for the server
+new DEVELOPER[32];      // Name of the server developer/maintainer
 
-new MySQL:db;
-new db_host[64], db_user[64], db_password[64], db_name[64];
-new DB_query[2048];
+// MySQL database connection variables
+new MySQL:db;           // MySQL connection handle
+new db_host[64];        // Database host address
+new db_user[64];        // Database username
+new db_password[64];    // Database password
+new db_name[64];        // Database name
+new DB_query[2048];     // Buffer for SQL queries
 
-new MaxWealth;
-new MaxDiamond;
-new MaxGold;
-new TotalWealth;
-new TotalDiamond;
-new TotalGold;
+// Server economy/limits variables
+new MaxWealth;          // Maximum money allowed on the server
+new MaxDiamond;         // Maximum diamonds allowed on the server
+new MaxGold;            // Maximum gold allowed on the server
+new TotalWealth;        // Total money held by all players
+new TotalDiamond;       // Total diamonds held by all players
+new TotalGold;          // Total gold held by all players
+
+// Loads server data from the database and config file
 stock LoadServerData(){
-
     //Server Info
-     // Fetch server data from the database table 'ServerConfig' according to city.sql
+    // Fetch server data from the database table 'ServerConfig' according to city.sql
     new Cache:result, rows;
     result = mysql_query(db, "SELECT * FROM ServerConfig LIMIT 1");
     cache_get_row_count(rows);
@@ -40,7 +47,7 @@ stock LoadServerData(){
     }
     cache_delete(result);
     
-    //City Info
+    //City Info (overrides values from database with config file values)
     MaxWealth = dini_Int("server.properties.cfg", "MaxWealth");
     MaxDiamond = dini_Int("server.properties.cfg", "MaxDiamond");
     MaxGold = dini_Int("server.properties.cfg", "MaxGold");
@@ -49,6 +56,7 @@ stock LoadServerData(){
     TotalGold = dini_Int("server.properties.cfg", "TotalGold");
 }
 
+// Saves server data to the SQL database
 stock SaveServerData() {
     // Save to SQL database instead of dini
     mysql_format(db, DB_query, sizeof(DB_query),
@@ -64,6 +72,7 @@ stock SaveServerData() {
     mysql_query(db, DB_query, false); // Use non-blocking query for better performance
 }
 
+// Called when the gamemode starts
 hook OnGameModeInit()
 {
     print("MORP Core(ServerData) Initialized.");
@@ -83,10 +92,11 @@ hook OnGameModeInit()
     }
     else
         printf("Successfully connected to the database server.\n");
-    // Load server data
+    // Load server data from database and config
     LoadServerData();
     
 
+    // Print server banner and information to console
     printf("\n\n");
     printf("  __  __      _                ____       _       _         _____       _      _____  _             ");
     printf(" |  \\/  |    | |              / __ \\     (_)     (_)       |  __ \\     | |    |  __ \\| |            ");
@@ -117,17 +127,16 @@ hook OnGameModeInit()
     printf("  - Total Gold: %i", TotalGold);
     printf("\n\n");
 
-    
-    
+    // Set server name and game mode via RCON
     SendRconCommand("name %s", SERVER_NAME);
     SendRconCommand("game.mode %s", SERVER_TAG);
 }
 
-
+// Called when the gamemode ends
 hook OnGameModeExit(){
-    SaveServerData();
-    dini_Timeout("server.properties.cfg");
-    mysql_close(db);
+    SaveServerData(); // Save server data to database
+    dini_Timeout("server.properties.cfg"); // Save config file changes
+    mysql_close(db); // Close MySQL connection
     print("MORP Core(ServerData) Unloaded.");
     return true;
 }

@@ -5,6 +5,7 @@
 #include <YSI_Coding\y_hooks>
 #include <YSI_Coding\y_timers>
 
+// Saves the current player's data (health, armor, position, etc.) to the database.
 stock bool:SavePlayerData(playerid){
     GetPlayerHealth(playerid, gPlayerData[playerid][pHealth]);
     GetPlayerArmour(playerid, gPlayerData[playerid][pArmor]);
@@ -20,14 +21,15 @@ stock bool:SavePlayerData(playerid){
     return true;
 }
 
+// Periodic task to save player data every 5 minutes (300000 ms).
 ptask SavePlayerDataTask[300000](playerid){
     if(gPlayerData[playerid][pLogged] && gPlayerData[playerid][pID] != 0){
         SavePlayerData(playerid);
     }
-    SSM(playerid, "Your data has been saved.");
     return true;
 }
 
+// Callback: Called when a player connects. Resets all player and master data for the joining player.
 hook OnPlayerConnect(playerid) {
     // Master Data Reset
     gMasterData[playerid][msID] = 0;
@@ -57,6 +59,7 @@ hook OnPlayerConnect(playerid) {
     return true;
 }
 
+// Callback: Called when a player disconnects. Saves player data and resets player name.
 hook OnPlayerDisconnect(playerid, reason) {
     if(gPlayerData[playerid][pLogged] && gPlayerData[playerid][pID] != 0){
         SavePlayerData(playerid);
@@ -65,9 +68,10 @@ hook OnPlayerDisconnect(playerid, reason) {
     return true;
 }
 
+// Callback: Called when the gamemode is exiting. Saves all connected players' data and resets their names.
 hook OnGameModeExit() {
-    new i;
-    for(i = 0; i < MAX_PLAYERS; i++){
+    // Save all players' data
+    for(new i = 0; i < MAX_PLAYERS; i++){
         if(gPlayerData[i][pID] != 0){
             SavePlayerData(i);
         }
